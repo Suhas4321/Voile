@@ -1,0 +1,43 @@
+# ===== Frontend (Aura) =====
+Aura/node_modules/
+Aura/dist/
+Aura/dist-ssr/
+Aura/*.local
+Aura/logs/
+Aura/*.log
+Aura/npm-debug.log*
+Aura/yarn-debug.log*
+Aura/yarn-error.log*
+Aura/pnpm-debug.log*
+Aura/lerna-debug.log*
+
+# ===== Backend =====
+backend/__pycache__/
+backend/*.pyc
+backend/*.pyo
+backend/.env
+backend/voile.db
+backend/voile.db-wal
+backend/voile.db-shm
+backend/uploads/
+backend/.venv/
+
+# ===== Root-level =====
+.venv/
+node_modules/
+package-lock.json
+
+# ===== IDE & OS =====
+.vscode/*
+!.vscode/extensions.json
+.idea/
+.DS_Store
+*.suo
+*.ntvs*
+*.njsproj
+*.sln
+*.sw?
+*.env
+
+# ===== Bolt metadata =====
+Aura/.bolt/

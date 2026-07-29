@@ -1,0 +1,11 @@
+# VOILE Backend
+
+__pycache__/
+*.pyc
+*.pyo
+.env
+voile.db
+voile.db-wal
+voile.db-shm
+uploads/
+.venv/
