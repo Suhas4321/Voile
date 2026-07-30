@@ -27,7 +27,9 @@
 ## 🎬 Demo Video
 
 <p align="center">
-  <em>Demo video coming soon — see FitMirrors virtual fitting studio in action!</em>
+ 
+
+
 </p>
 
 ---
