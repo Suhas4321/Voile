@@ -22,8 +22,11 @@ from fastapi.staticfiles import StaticFiles
 from redis import Redis
 from rq import Queue
 
+from pydantic import BaseModel, Field
+
 from config import FRONTEND_ORIGIN, REDIS_URL, UPLOAD_DIR
 from database import create_job, get_job, init_db
+from link_parser import extract_garment_from_url
 from rate_limit import RateLimitExceeded, rate_limiter
 from tasks import run_tryon_job
 from validation import ValidationError, validate_image
@@ -114,6 +117,36 @@ async def health_check():
         "status": status,
         "redis": "connected" if redis_ok else "unreachable",
     }
+
+
+class ExtractGarmentRequest(BaseModel):
+    url: str = Field(..., description="E-commerce product link or direct garment image URL")
+    image_index: int = Field(0, description="Index of image to select if multiple are extracted")
+
+
+@app.post("/api/v1/extract-garment")
+async def extract_garment_endpoint(request: Request, payload: ExtractGarmentRequest):
+    """
+    Extract garment image and product details from an e-commerce URL (Myntra, Zara, Amazon, etc.)
+    or direct image link.
+    """
+    client_ip = request.client.host if request.client else "unknown"
+    rate_limiter.check(client_ip)
+
+    try:
+        result = await extract_garment_from_url(payload.url, selected_image_index=payload.image_index)
+        return result
+    except ValueError as e:
+        return JSONResponse(
+            status_code=400,
+            content={"detail": str(e)},
+        )
+    except Exception as e:
+        logger.error(f"Unexpected error extracting garment from URL '{payload.url}': {e}")
+        return JSONResponse(
+            status_code=500,
+            content={"detail": f"Failed to extract garment details: {str(e)}"},
+        )
 
 
 @app.post("/api/v1/try-on", status_code=202)

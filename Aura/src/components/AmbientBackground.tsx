@@ -24,7 +24,10 @@ export function AmbientBackground({ preset }: AmbientBackgroundProps) {
   return (
     <div
       className="fixed inset-0 -z-10 overflow-hidden"
-      style={{ backgroundColor: '#08090D', transition: 'background-color 1.2s ease' }}
+      style={{
+        backgroundColor: theme.base ?? '#0C0A09',
+        transition: 'background-color 1.2s ease',
+      }}
       aria-hidden
     >
       {/* Ambient page-wide tint */}
@@ -35,7 +38,7 @@ export function AmbientBackground({ preset }: AmbientBackgroundProps) {
         }}
       />
 
-      {/* Orb 1 — Electric Cyan, top-left, floating */}
+      {/* Orb 1 — top-left (color from active lighting theme) */}
       <div
         className="animate-orb-float-1"
         style={{
@@ -51,7 +54,7 @@ export function AmbientBackground({ preset }: AmbientBackgroundProps) {
         }}
       />
 
-      {/* Orb 2 — Royal Violet, bottom-right, floating */}
+      {/* Orb 2 — bottom-right */}
       <div
         className="animate-orb-float-2"
         style={{
@@ -67,7 +70,7 @@ export function AmbientBackground({ preset }: AmbientBackgroundProps) {
         }}
       />
 
-      {/* Orb 3 — Champagne Gold, center, pulsing */}
+      {/* Orb 3 — center pulse */}
       <div
         className="animate-orb-pulse"
         style={{

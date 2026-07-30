@@ -1,115 +1,49 @@
-import { useMemo } from 'react';
-import { Sparkles, Shirt, Layers, ArrowDown } from 'lucide-react';
-import { GlassPanel } from '@/components/ui/GlassPrimitives';
+import { ArrowRight } from 'lucide-react';
 
 /* ============================================================
- * HeroHeader — Warm Golden Hour Luxury Edition
- * Kinetic-type headline, animated subheadline, and floating
- * metrics bar with warm stone surface backing.
+ * HeroHeader — clean landing hero (single idea, single CTA)
  * ============================================================ */
 
-const METRICS = [
-  { icon: Sparkles, value: 'Instant', label: 'AI-Powered Fit Preview' },
-  { icon: Layers, value: '99.4%', label: 'Drape Realism Score' },
-  { icon: Shirt, value: '4K', label: 'Photorealistic Resolution' },
-];
-
-function KineticText({
-  text,
-  className,
-  delay = 0,
-  /** Solid gold line — avoids bg-clip-text which hides nested kinetic chars */
-  gold = false,
-}: {
-  text: string;
-  className?: string;
-  delay?: number;
-  gold?: boolean;
-}) {
-  const chars = useMemo(() => text.split(''), [text]);
-  return (
-    <span className={className} aria-label={text}>
-      {chars.map((ch, i) => (
-        <span
-          key={i}
-          className={`kinetic-char ${gold ? 'text-gold-accent' : ''}`}
-          style={{ animationDelay: `${delay + i * 0.02}s` }}
-          aria-hidden
-        >
-          {ch === ' ' ? '\u00A0' : ch}
-        </span>
-      ))}
-    </span>
-  );
+interface HeroHeaderProps {
+  onLaunchStudio?: () => void;
 }
 
-export function HeroHeader() {
+export function HeroHeader({ onLaunchStudio }: HeroHeaderProps) {
   function scrollToHow() {
-    const el = document.getElementById('how');
-    if (el) {
-      el.scrollIntoView({ behavior: 'smooth', block: 'start' });
-    }
+    document.getElementById('how')?.scrollIntoView({ behavior: 'smooth', block: 'start' });
   }
 
   return (
-    <section className="relative mx-auto max-w-7xl px-4 pt-12 text-center sm:px-6 sm:pt-16">
-      {/* Eyebrow */}
-      <div className="mb-6 inline-flex items-center gap-2 rounded-full border border-gold-accent/30 bg-stone-900/80 px-4 py-1.5 backdrop-blur-xl animate-fade-in-up">
-        <span className="h-1.5 w-1.5 rounded-full bg-gold-accent animate-glow-pulse" />
-        <span className="text-[11px] uppercase tracking-luxe text-stone-300">
-          Photorealistic Virtual Try-On · FitMirrors AI
-        </span>
-      </div>
-
-      {/* Kinetic headline — clear pre-purchase virtual try-on promise */}
-      <h1
-        className="font-serif text-4xl font-bold uppercase leading-[1.08] tracking-wide-luxe text-stone-100 sm:text-6xl lg:text-7xl"
-        style={{ textShadow: '0 0 40px rgba(212,175,55,0.2)' }}
-      >
-        <KineticText text="Try It On." delay={0.1} />
-        <br />
-        <KineticText text="Then Decide." delay={0.45} gold />
-      </h1>
-
-      {/* Subheadline */}
-      <p className="mx-auto mt-6 max-w-2xl text-base leading-relaxed text-stone-400 animate-fade-in-up animate-delay-200 sm:text-lg">
-        Virtually try on clothes before you buy. Upload your photo, drape real garments, and preview
-        how they fit and look — so you decide with confidence.
+    <section className="relative mx-auto max-w-4xl px-4 pt-16 text-center sm:px-6 sm:pt-24">
+      <p className="mb-6 text-[11px] font-medium uppercase tracking-luxe text-gold-accent/90 animate-fade-in-up">
+        AI Virtual Try-On
       </p>
 
-      {/* Metrics bar */}
-      <div className="mx-auto mt-10 grid max-w-4xl grid-cols-1 gap-3 sm:grid-cols-3 animate-fade-in-up animate-delay-300">
-        {METRICS.map((m) => {
-          const Icon = m.icon;
-          return (
-            <GlassPanel
-              key={m.label}
-              hover
-              shimmer
-              specular
-              surface
-              className="flex items-center justify-center gap-3 px-5 py-4 border-stone-800 bg-stone-900/80"
-            >
-              <Icon className="h-5 w-5 shrink-0 text-gold-accent" />
-              <div className="text-left">
-                <div className="text-lg font-bold text-stone-100">{m.value}</div>
-                <div className="text-[11px] uppercase tracking-wide-luxe text-stone-400">
-                  {m.label}
-                </div>
-              </div>
-            </GlassPanel>
-          );
-        })}
-      </div>
+      <h1 className="font-serif text-4xl font-bold uppercase leading-[1.1] tracking-wide-luxe text-stone-100 sm:text-6xl lg:text-7xl animate-fade-in-up">
+        See yourself in
+        <br />
+        <span className="text-gold-accent">any outfit.</span>
+      </h1>
 
-      {/* Secondary action only — primary "Launch Fitting Studio" stays in sticky nav */}
-      <button
-        onClick={scrollToHow}
-        className="group relative mx-auto mt-10 flex items-center gap-2 rounded-full border border-stone-700 bg-stone-900/70 px-6 py-3 text-xs font-semibold uppercase tracking-wide-luxe text-stone-300 backdrop-blur-md transition-all duration-300 hover:border-gold-accent/40 hover:text-gold-accent animate-fade-in-up animate-delay-500 cursor-pointer"
-      >
-        See How It Works
-        <ArrowDown className="h-3.5 w-3.5 transition-transform duration-300 group-hover:translate-y-0.5" />
-      </button>
+      <p className="mx-auto mt-6 max-w-lg text-base leading-relaxed text-stone-400 animate-fade-in-up animate-delay-200 sm:text-lg">
+        Upload your photo, pick a garment — or paste a store link — and get a realistic AI try-on.
+      </p>
+
+      <div className="mt-9 flex flex-col items-center justify-center gap-3 animate-fade-in-up animate-delay-300 sm:flex-row">
+        <button
+          onClick={onLaunchStudio}
+          className="btn-glow inline-flex items-center gap-2 rounded-full bg-gradient-to-r from-gold-accent via-amber-300 to-gold-aura px-8 py-3.5 text-xs font-bold uppercase tracking-wide-luxe text-stone-950 shadow-[0_0_24px_-4px_rgba(212,175,55,0.55)] cursor-pointer"
+        >
+          Launch Studio
+          <ArrowRight className="h-4 w-4" />
+        </button>
+        <button
+          onClick={scrollToHow}
+          className="text-xs font-medium uppercase tracking-wide-luxe text-stone-400 transition-colors hover:text-gold-accent cursor-pointer"
+        >
+          How it works
+        </button>
+      </div>
     </section>
   );
 }

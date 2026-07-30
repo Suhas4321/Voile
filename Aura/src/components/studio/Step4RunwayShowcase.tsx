@@ -138,7 +138,7 @@ export function Step4RunwayShowcase({
     if (!afterUrl) return;
     const a = document.createElement('a');
     a.href = afterUrl;
-    a.download = `fitmirrors-tryon-${Date.now()}.png`;
+    a.download = `fitlabs-tryon-${Date.now()}.png`;
     document.body.appendChild(a);
     a.click();
     document.body.removeChild(a);
@@ -146,7 +146,7 @@ export function Step4RunwayShowcase({
 
   function handleShare() {
     if (navigator.share && afterUrl) {
-      navigator.share({ title: 'FitMirrors AI Try-On', url: afterUrl }).catch(() => {});
+      navigator.share({ title: 'FitLabs AI Try-On', url: afterUrl }).catch(() => {});
     } else if (afterUrl) {
       navigator.clipboard.writeText(afterUrl);
     }
@@ -305,41 +305,49 @@ export function Step4RunwayShowcase({
         </div>
       </div>
 
-      {/* Garment chip metadata badge */}
-      <div className="mx-auto flex max-w-[500px] items-center justify-between rounded-xl border border-stone-800 bg-stone-900/80 px-4 py-2.5">
-        <div className="flex items-center gap-3">
-          {garmentThumbnail ? (
-            <img src={garmentThumbnail} alt={garmentName} className="h-9 w-9 rounded-lg object-contain bg-stone-950 p-1 border border-stone-800" />
-          ) : (
-            <div className="flex h-9 w-9 items-center justify-center rounded-lg bg-stone-800 text-gold-accent">
-              <Shirt className="h-4 w-4" />
-            </div>
-          )}
-          <div>
-            <div className="text-[10px] uppercase tracking-wide-luxe text-gold-accent">
-              {garmentBrand || 'FitMirrors AI'}
-            </div>
-            <div className="text-xs font-semibold text-stone-100">{garmentName}</div>
-          </div>
-        </div>
+      {/* Spacer for fixed action bar */}
+      <div className="h-20" aria-hidden />
 
-        {/* Action bar */}
-        <div className="flex items-center gap-2">
-          <button
-            onClick={onSave}
-            className={`flex h-9 items-center gap-1.5 rounded-full border px-3 text-xs font-semibold transition-all duration-300 cursor-pointer ${
-              justSaved
-                ? 'border-gold-accent bg-gold-accent/20 text-gold-accent'
-                : 'border-stone-800 bg-stone-900 text-stone-300 hover:border-gold-accent/40 hover:text-stone-100'
-            }`}
-          >
-            {justSaved ? <Check className="h-3.5 w-3.5" /> : <Bookmark className="h-3.5 w-3.5" />}
-            <span>{justSaved ? 'Saved' : 'Save'}</span>
-          </button>
-          <GlowButton variant="gold" onClick={onRegenerate}>
-            <RefreshCw className="h-3.5 w-3.5 fill-stone-950" />
-            <span className="hidden sm:inline">Try Another</span>
-          </GlowButton>
+      {/* Viewport-pinned result actions — Save / Try Another always visible */}
+      <div className="pointer-events-none fixed inset-x-0 bottom-0 z-40 px-3 pb-3 sm:px-6 sm:pb-4">
+        <div className="pointer-events-auto mx-auto flex max-w-[560px] items-center justify-between gap-3 rounded-2xl border border-stone-800 bg-stone-950/95 px-4 py-3 shadow-[0_12px_35px_rgba(0,0,0,0.85)] ring-1 ring-gold-accent/15 backdrop-blur-xl">
+          <div className="flex min-w-0 items-center gap-3">
+            {garmentThumbnail ? (
+              <img
+                src={garmentThumbnail}
+                alt={garmentName}
+                className="h-9 w-9 shrink-0 rounded-lg border border-stone-800 bg-stone-950 object-contain p-1"
+              />
+            ) : (
+              <div className="flex h-9 w-9 shrink-0 items-center justify-center rounded-lg bg-stone-800 text-gold-accent">
+                <Shirt className="h-4 w-4" />
+              </div>
+            )}
+            <div className="min-w-0">
+              <div className="truncate text-[10px] uppercase tracking-wide-luxe text-gold-accent">
+                {garmentBrand || 'FitLabs AI'}
+              </div>
+              <div className="truncate text-xs font-semibold text-stone-100">{garmentName}</div>
+            </div>
+          </div>
+
+          <div className="flex shrink-0 items-center gap-2">
+            <button
+              onClick={onSave}
+              className={`flex h-9 items-center gap-1.5 rounded-full border px-3 text-xs font-semibold transition-all duration-300 cursor-pointer ${
+                justSaved
+                  ? 'border-gold-accent bg-gold-accent/20 text-gold-accent'
+                  : 'border-stone-800 bg-stone-900 text-stone-300 hover:border-gold-accent/40 hover:text-stone-100'
+              }`}
+            >
+              {justSaved ? <Check className="h-3.5 w-3.5" /> : <Bookmark className="h-3.5 w-3.5" />}
+              <span>{justSaved ? 'Saved' : 'Save'}</span>
+            </button>
+            <GlowButton variant="gold" onClick={onRegenerate}>
+              <RefreshCw className="h-3.5 w-3.5 fill-stone-950" />
+              <span className="hidden sm:inline">Try Another</span>
+            </GlowButton>
+          </div>
         </div>
       </div>
 
@@ -351,7 +359,7 @@ export function Step4RunwayShowcase({
             <div className="flex items-center gap-2 rounded-full border border-stone-800 bg-stone-900/80 px-4 py-1.5 backdrop-blur-md">
               <Sparkles className="h-4 w-4 text-gold-accent" />
               <span className="text-xs font-semibold uppercase tracking-wide-luxe text-stone-200">
-                FitMirrors 4K Inspector
+                FitLabs 4K Inspector
               </span>
             </div>
             <div className="flex items-center gap-2">

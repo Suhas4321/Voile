@@ -1,7 +1,7 @@
 import { type CSSProperties } from 'react';
 
 /* ============================================================
- * FitMirrors Design Tokens & Data Specs
+ * FitLabs Design Tokens & Data Specs
  * Modern 2026 Liquid Glassmorphism & Generative VTON Types
  * ============================================================ */
 
@@ -14,6 +14,15 @@ export interface AnglePhoto {
   hint?: string;
 }
 
+export type GarmentCategory =
+  | 'All'
+  | 'Outerwear'
+  | 'Tops'
+  | 'Bottoms'
+  | 'Evening Wear'
+  | 'Streetwear'
+  | 'Accessories';
+
 export interface Garment {
   id: string;
   name: string;
@@ -23,6 +32,17 @@ export interface Garment {
   price: string;
   url: string;
 }
+
+/** E-commerce stores surfaced in marketing UI (import support varies — see scraper_notes.md). */
+export const SUPPORTED_STORES = [
+  'Myntra',
+  'Ajio',
+  'Amazon Fashion',
+  'Flipkart',
+  'Meesho',
+  'Nykaa Fashion',
+  'Tata CLiQ',
+] as const;
 
 export interface ModelPreset {
   id: string;
@@ -48,13 +68,15 @@ export interface LightingTheme {
   id: LightingPreset;
   label: string;
   description: string;
+  /** Page base fill behind orbs */
+  base: string;
   orb1: string;
   orb2: string;
   orb3: string;
   ambient: string;
 }
 
-export type LightingPreset = 'neutral' | 'golden' | 'cyberpunk';
+export type LightingPreset = 'obsidian' | 'golden' | 'neutral' | 'cyberpunk';
 
 /* Helper to build deterministic high-resolution Unsplash image URLs */
 const U = (id: string, w = 800) =>
@@ -256,33 +278,50 @@ export const FIT_METRICS: FitMetric[] = [
 
 export const FIT_OVERALL = 98.7;
 
+/**
+ * Studio / page atmospheres.
+ * Black & Gold (obsidian) is the classic FitLabs charcoal luxury look.
+ */
 export const LIGHTING_THEMES: LightingTheme[] = [
   {
+    id: 'obsidian',
+    label: 'Black & Gold',
+    description: 'Deep charcoal black with pure metallic gold — signature FitLabs look',
+    base: '#0C0A09',
+    orb1: 'rgba(212, 175, 55, 0.20)',
+    orb2: 'rgba(180, 83, 9, 0.18)',
+    orb3: 'rgba(232, 196, 104, 0.14)',
+    ambient: 'rgba(212, 175, 55, 0.05)',
+  },
+  {
     id: 'golden',
-    label: 'Golden Hour Glow',
-    description: 'Warm amber & champagne gold luxury aura',
-    orb1: 'rgba(212, 175, 55, 0.22)',
-    orb2: 'rgba(245, 158, 11, 0.25)',
+    label: 'Golden Hour',
+    description: 'Warm amber & champagne gold — editorial luxury glow',
+    base: '#0A0908',
+    orb1: 'rgba(212, 175, 55, 0.26)',
+    orb2: 'rgba(245, 158, 11, 0.24)',
     orb3: 'rgba(232, 196, 104, 0.20)',
-    ambient: 'rgba(212, 175, 55, 0.06)',
+    ambient: 'rgba(212, 175, 55, 0.08)',
   },
   {
     id: 'neutral',
-    label: 'Warm Studio Neutral',
-    description: 'Deep bronze shadows & soft warm ivory rim',
-    orb1: 'rgba(180, 83, 9, 0.20)',
-    orb2: 'rgba(212, 175, 55, 0.18)',
-    orb3: 'rgba(120, 53, 15, 0.15)',
-    ambient: 'rgba(180, 83, 9, 0.04)',
+    label: 'Studio Neutral',
+    description: 'Cool slate & soft silver rim — clean daylight studio',
+    base: '#0B0D10',
+    orb1: 'rgba(148, 163, 184, 0.16)',
+    orb2: 'rgba(71, 85, 105, 0.22)',
+    orb3: 'rgba(226, 232, 240, 0.10)',
+    ambient: 'rgba(148, 163, 184, 0.05)',
   },
   {
-    id: 'cyberpunk', // Keep preset id for type compatibility, label as Warm Spotlight
-    label: 'Warm Spotlight',
-    description: 'Focused champagne gold beam & rich charcoal contrast',
-    orb1: 'rgba(232, 196, 104, 0.28)',
-    orb2: 'rgba(217, 119, 6, 0.22)',
-    orb3: 'rgba(180, 83, 9, 0.18)',
-    ambient: 'rgba(232, 196, 104, 0.05)',
+    id: 'cyberpunk',
+    label: 'Midnight Neon',
+    description: 'Electric cyan & violet edge — night runway energy',
+    base: '#07060C',
+    orb1: 'rgba(34, 211, 238, 0.18)',
+    orb2: 'rgba(139, 92, 246, 0.22)',
+    orb3: 'rgba(236, 72, 153, 0.12)',
+    ambient: 'rgba(99, 102, 241, 0.06)',
   },
 ];
 

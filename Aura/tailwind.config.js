@@ -46,8 +46,13 @@ export default {
         'gradient-x': 'gradientX 6s ease infinite',
         'log-blink': 'logBlink 1s steps(2) infinite',
         'specular-sweep': 'specularSweep 7s ease-in-out infinite',
+        'marquee-scroll': 'marqueeScroll 32s linear infinite',
       },
       keyframes: {
+        marqueeScroll: {
+          '0%': { transform: 'translateX(0)' },
+          '100%': { transform: 'translateX(-50%)' },
+        },
         orbFloat1: {
           '0%,100%': { transform: 'translate(-8%, -6%) scale(1)' },
           '50%': { transform: 'translate(14%, 18%) scale(1.18)' },

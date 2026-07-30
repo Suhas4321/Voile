@@ -45,9 +45,10 @@ export function ParticleField({ preset, density = 60 }: ParticleFieldProps) {
     let particles: P[] = [];
 
     const ACCENTS: Record<LightingPreset, string[]> = {
-      neutral: ['#D4AF37', '#E8C468', '#B45309'],
+      obsidian: ['#D4AF37', '#E8C468', '#B45309'],
       golden: ['#E8C468', '#F59E0B', '#D4AF37'],
-      cyberpunk: ['#E8C468', '#D4AF37', '#F59E0B'],
+      neutral: ['#94A3B8', '#E2E8F0', '#64748B'],
+      cyberpunk: ['#22D3EE', '#A78BFA', '#F472B6'],
     };
 
     function resize() {
@@ -95,7 +96,7 @@ export function ParticleField({ preset, density = 60 }: ParticleFieldProps) {
       cancelAnimationFrame(raf);
       window.removeEventListener('resize', resize);
     };
-  }, [density]);
+  }, [density, preset]);
 
   return (
     <canvas

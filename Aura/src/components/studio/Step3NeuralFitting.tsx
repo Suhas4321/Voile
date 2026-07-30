@@ -414,7 +414,7 @@ export function Step3NeuralFitting({
                   <span className="h-2 w-2 rounded-full bg-amber-400/70" />
                   <span className="h-2 w-2 rounded-full bg-gold-accent/70" />
                   <span className="ml-2 text-[10px] uppercase tracking-wide-luxe text-stone-400">
-                    fitmirrors · real-time inference log
+                    fitlabs · real-time inference log
                   </span>
                 </div>
                 <div className="space-y-1.5 max-h-[120px] overflow-y-auto no-scrollbar">

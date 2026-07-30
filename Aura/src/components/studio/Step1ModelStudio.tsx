@@ -278,17 +278,22 @@ export function Step1ModelStudio({
         </div>
       </div>
 
-      {/* Continue Action Footer */}
-      <div className="mt-8 flex items-center justify-between border-t border-stone-800 pt-5">
-        <span className="text-xs text-stone-400">
-          {hasImage
-            ? 'Full-body photo ready. Proceed to select a garment from the wardrobe.'
-            : 'Please upload a full-body photo or select a sample preset to continue.'}
-        </span>
-        <GlowButton variant="gold" onClick={onContinue} disabled={!hasImage}>
-          Continue to Wardrobe
-          <span className="text-base">→</span>
-        </GlowButton>
+      {/* Spacer so guidelines are not hidden under the fixed CTA */}
+      <div className="h-24" aria-hidden />
+
+      {/* Viewport-pinned Continue — no scroll hunting past tips */}
+      <div className="pointer-events-none fixed inset-x-0 bottom-0 z-40 px-3 pb-3 sm:px-6 sm:pb-4">
+        <div className="pointer-events-auto mx-auto flex max-w-7xl flex-wrap items-center justify-between gap-3 rounded-2xl border border-stone-800 bg-stone-950/95 px-5 py-3.5 shadow-[0_12px_35px_rgba(0,0,0,0.85)] ring-1 ring-gold-accent/15 backdrop-blur-xl">
+          <span className="text-xs text-stone-400">
+            {hasImage
+              ? 'Full-body photo ready. Proceed to select a garment from the wardrobe.'
+              : 'Please upload a full-body photo or select a sample preset to continue.'}
+          </span>
+          <GlowButton variant="gold" onClick={onContinue} disabled={!hasImage}>
+            Continue to Wardrobe
+            <span className="text-base">→</span>
+          </GlowButton>
+        </div>
       </div>
     </div>
   );

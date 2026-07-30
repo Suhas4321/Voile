@@ -300,6 +300,27 @@
     opacity: 0;
     animation: kinetic-char 0.5s cubic-bezier(0.22, 1, 0.36, 1) forwards;
   }
+
+  /* Infinite horizontal logo marquee — pauses on hover (full-bleed strip) */
+  @keyframes marqueeScroll {
+    0% { transform: translateX(0); }
+    100% { transform: translateX(-33.333%); }
+  }
+  .marquee-track {
+    display: flex;
+    width: max-content;
+    animation: marqueeScroll 40s linear infinite;
+    will-change: transform;
+  }
+  .marquee-track:hover {
+    animation-play-state: paused;
+  }
+
+  /* Brand logos → monochrome champagne gold on dark theme */
+  .store-logo-mark img {
+    filter: brightness(0) invert(1) sepia(1) saturate(3) hue-rotate(5deg) brightness(1.05);
+    opacity: 0.92;
+  }
 }
 
 @media (prefers-reduced-motion: reduce) {

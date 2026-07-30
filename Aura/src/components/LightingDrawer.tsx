@@ -20,9 +20,10 @@ interface LightingDrawerProps {
 }
 
 const SWATCH: Record<LightingPreset, string> = {
-  golden: 'linear-gradient(135deg, #b45309, #d4af37 60%, #e8c468)',
-  neutral: 'linear-gradient(135deg, #1c1917, #44403c 70%, #78716c)',
-  cyberpunk: 'linear-gradient(135deg, #d4af37, #b45309 60%, #1c1917)',
+  obsidian: 'linear-gradient(135deg, #0C0A09 0%, #1C1917 40%, #D4AF37 100%)',
+  golden: 'linear-gradient(135deg, #b45309, #d4af37 55%, #e8c468)',
+  neutral: 'linear-gradient(135deg, #0f172a, #64748b 55%, #e2e8f0)',
+  cyberpunk: 'linear-gradient(135deg, #22d3ee, #8b5cf6 50%, #ec4899)',
 };
 
 export function LightingDrawer({
@@ -53,7 +54,7 @@ export function LightingDrawer({
             <div className="flex items-center gap-2">
               <Sun className="h-5 w-5 text-gold-accent" />
               <h3 className="font-serif text-lg font-bold uppercase tracking-wide-luxe text-stone-100">
-                Studio Lighting
+                Theme
               </h3>
             </div>
             <button
@@ -65,7 +66,8 @@ export function LightingDrawer({
           </div>
 
           <p className="mb-4 text-sm text-stone-400">
-            Change the studio atmosphere. Switch between luxury lighting themes manually or let them auto-rotate every 7 seconds.
+            Pick the page atmosphere. <strong className="text-stone-200">Black &amp; Gold</strong> is
+            the classic charcoal look. Switch anytime, or auto-rotate every 7 seconds.
           </p>
 
           {/* 7-SECOND AUTO-ROTATE TOGGLE CARD */}

@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 280 64" width="280" height="64">
+  <g transform="translate(4,6)">
+    <circle cx="24" cy="26" r="24" fill="#047BD5"/>
+    <path d="M12 30 C20 14, 38 10, 46 18" fill="none" stroke="#FFE11B" stroke-width="4.5" stroke-linecap="round"/>
+    <circle cx="44" cy="14" r="4" fill="#FFE11B"/>
+  </g>
+  <text x="60" y="42" font-family="Arial, Helvetica, sans-serif" font-size="34" font-weight="700" fill="#047BD5">Flipkart</text>
+</svg>

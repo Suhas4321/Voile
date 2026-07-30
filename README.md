@@ -64,6 +64,7 @@ FitMirrors follows a **4-step studio workflow** designed to feel like a luxury f
 ### Frontend — *Aura*
 - **Immersive glassmorphism UI** with ambient backgrounds, particle fields, and cursor spark trails
 - **Kinetic typography** hero section with character-by-character blur-in animation
+- **E-Commerce Link Import** — paste any product link or image URL directly into the hero or wardrobe modal to import items
 - **3 lighting themes** — Neutral, Golden Hour, and Cyberpunk — with auto-rotation
 - **Tilt-responsive cards** and shimmer-sweep glass panels throughout
 - **Saved Fits drawer** — bookmark and revisit your favorite try-ons
@@ -73,6 +74,7 @@ FitMirrors follows a **4-step studio workflow** designed to feel like a luxury f
 - **Fully responsive** — works seamlessly on desktop, tablet, and mobile
 
 ### Backend
+- **E-Commerce Garment Scraper** — automated link parsing & high-res image extraction for Myntra, Zara, Amazon, Ajio, Shopify, JSON-LD schema, and OpenGraph tags
 - **Async job processing** — submit a try-on, poll for results; never blocks the UI
 - **Provider abstraction** — swap AI engines (HuggingFace, fal.ai, self-hosted) without touching app code
 - **Smart retry logic** — exponential backoff with quota-aware short-circuiting
@@ -148,6 +150,7 @@ rq worker --with-scheduler
 | Method | Endpoint | Description |
 |--------|----------|-------------|
 | `POST` | `/api/v1/try-on` | Submit a try-on job (multipart: `model_image` + `garment_image`) → returns `job_id` |
+| `POST` | `/api/v1/extract-garment` | Extract garment image & metadata from e-commerce product URL (JSON: `{ "url": "..." }`) |
 | `GET` | `/api/v1/jobs/{job_id}` | Poll job status → `pending` / `processing` / `completed` / `failed` |
 | `GET` | `/api/v1/health` | Health check with Redis connectivity status |
 
@@ -176,6 +179,28 @@ curl http://localhost:8000/api/v1/jobs/a3f8c1d2e4...
   "result_image_url": "/uploads/results/output.png",
   "progress_message": "Try-on complete",
   "error_message": null
+}
+```
+
+### Example: Extract Garment from E-Commerce Link
+
+```bash
+curl -X POST http://localhost:8000/api/v1/extract-garment \
+  -H "Content-Type: application/json" \
+  -d '{"url": "https://www.myntra.com/tshirts/brand/product/12345"}'
+```
+
+```json
+{
+  "success": true,
+  "id": "link_a1b2c3d4e5",
+  "title": "Oversized Cotton Graphic T-Shirt",
+  "brand": "Roadster",
+  "price": "₹799",
+  "site_name": "Myntra",
+  "category": "T-Shirt / Top",
+  "garment_url": "/uploads/garments/link_a1b2c3d4e5.jpg",
+  "source_url": "https://www.myntra.com/tshirts/brand/product/12345"
 }
 ```
 
@@ -224,6 +249,7 @@ curl http://localhost:8000/api/v1/jobs/a3f8c1d2e4...
 | **SQLite (WAL)** | Lightweight job persistence with concurrent read support |
 | **Redis + RQ** | Distributed job queue (with FakeRedis fallback) |
 | **Pillow** | Image validation and content inspection |
+| **BeautifulSoup4 + HTTPX** | E-commerce web scraping & garment image extraction |
 | **gradio_client** | Communication with HuggingFace Spaces |
 | **python-dotenv** | Environment configuration |
 
@@ -252,7 +278,7 @@ FitMirrors uses [**IDM-VTON**](https://huggingface.co/spaces/yisol/IDM-VTON) (Im
 ## 📁 Project Structure
 
 ```
-Voile/
+FitMirrors/
 ├── Aura/                          # Frontend application
 │   ├── index.html                 # Entry HTML with meta tags & fonts
 │   ├── package.json               # Dependencies and scripts
@@ -290,6 +316,7 @@ Voile/
 │   ├── main.py                    # FastAPI app, routes, middleware
 │   ├── config.py                  # Centralized env-based configuration
 │   ├── database.py                # SQLite with WAL mode for job tracking
+│   ├── link_parser.py             # E-commerce link scraper & garment extractor
 │   ├── tasks.py                   # Background job runner (RQ integration)
 │   ├── validation.py              # Image upload validation (type, size, content)
 │   ├── rate_limit.py              # Per-IP sliding window rate limiter
@@ -320,3 +347,4 @@ MIT — free to use, modify, and distribute.
   <strong>Built with ☕ and generative AI</strong><br>
   <sub>FitMirrors © 2026</sub>
 </p>
+

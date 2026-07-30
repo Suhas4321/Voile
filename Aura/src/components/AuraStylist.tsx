@@ -47,7 +47,7 @@ export function AuraStylist() {
   const [messages, setMessages] = useState<Message[]>([
     {
       role: 'ai',
-      text: 'I am FitMirrors Stylist. Ask me about pairings, layering, or colour harmony for your current look.',
+      text: 'I am FitLabs Stylist. Ask me about pairings, layering, or colour harmony for your current look.',
     },
   ]);
   const [input, setInput] = useState('');
@@ -75,7 +75,7 @@ export function AuraStylist() {
                 <Wand2 className="h-4 w-4 text-stone-950" />
               </span>
               <div>
-                <div className="text-sm font-bold text-stone-100">FitMirrors Stylist</div>
+                <div className="text-sm font-bold text-stone-100">FitLabs Stylist</div>
                 <div className="flex items-center gap-1 text-[10px] text-gold-accent">
                   <span className="h-1.5 w-1.5 rounded-full bg-gold-accent animate-glow-pulse" />
                   Online
@@ -148,7 +148,7 @@ export function AuraStylist() {
               value={input}
               onChange={(e) => setInput(e.target.value)}
               onKeyDown={(e) => e.key === 'Enter' && send(input)}
-              placeholder="Ask FitMirrors Stylist…"
+              placeholder="Ask FitLabs Stylist…"
               className="flex-1 bg-transparent text-xs text-stone-100 placeholder:text-stone-500 focus:outline-none"
             />
             <button
@@ -169,7 +169,7 @@ export function AuraStylist() {
         <span className="flex h-7 w-7 items-center justify-center rounded-full bg-gradient-to-br from-gold-accent to-amber-500">
           <Wand2 className="h-4 w-4 text-stone-950" />
         </span>
-        <span className="text-xs font-bold uppercase tracking-wide-luxe text-stone-100">FitMirrors Stylist</span>
+        <span className="text-xs font-bold uppercase tracking-wide-luxe text-stone-100">FitLabs Stylist</span>
       </button>
     </div>
   );

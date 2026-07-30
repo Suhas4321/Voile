@@ -1,22 +1,19 @@
-import { useEffect, useMemo, useState } from 'react';
+import { useCallback, useEffect, useMemo, useState } from 'react';
 import { AmbientBackground } from '@/components/AmbientBackground';
 import { ParticleField } from '@/components/ParticleField';
 import { CursorSparkTrail } from '@/components/CursorSparkTrail';
 import { ScrollProgressBar } from '@/components/ScrollProgressBar';
-import { AmbientAudioToggle } from '@/components/AmbientAudioToggle';
-import { TopGlassNav } from '@/components/TopGlassNav';
-import { HeroHeader } from '@/components/HeroHeader';
+import { TopGlassNav, type AppView } from '@/components/TopGlassNav';
+import { LandingPage } from '@/components/LandingPage';
 import { LightingDrawer } from '@/components/LightingDrawer';
 import { SavedFitsDrawer } from '@/components/SavedFitsDrawer';
 import { AuraStylist } from '@/components/AuraStylist';
-import { FitMirrorsLogo } from '@/components/FitMirrorsLogo';
 import { StudioWorkspace, type StepId } from '@/components/studio/StudioWorkspace';
 import { Step1ModelStudio } from '@/components/studio/Step1ModelStudio';
 import { Step2WardrobeCloset } from '@/components/studio/Step2WardrobeCloset';
 import { Step3NeuralFitting } from '@/components/studio/Step3NeuralFitting';
 import { Step4RunwayShowcase } from '@/components/studio/Step4RunwayShowcase';
-import { GlassPanel, SectionLabel } from '@/components/ui/GlassPrimitives';
-import { Reveal, TiltCard } from '@/components/ui/MotionWrappers';
+import { Reveal } from '@/components/ui/MotionWrappers';
 import {
   ANGLE_DEFS,
   GARMENTS,
@@ -28,44 +25,66 @@ import {
   type LightingPreset,
   type SavedFit,
 } from '@/lib/data';
-import { Sparkles, Layers, Cpu, Wand2, Eye } from 'lucide-react';
+
+function viewFromHash(): AppView {
+  const h = window.location.hash.replace(/^#\/?/, '').toLowerCase();
+  return h.startsWith('studio') ? 'studio' : 'landing';
+}
 
 function App() {
-  /* ----------------------------- App state ----------------------------- */
-  const [activeNav, setActiveNav] = useState('studio');
+  const [view, setView] = useState<AppView>(() =>
+    typeof window !== 'undefined' ? viewFromHash() : 'landing',
+  );
+  const [activeNav, setActiveNav] = useState('home');
   const [activeStep, setActiveStep] = useState<StepId>(1);
 
-  // Step 1 — model
   const [angles, setAngles] = useState<AnglePhoto[]>(
     ANGLE_DEFS.map((d) => ({ id: d.id, label: d.label, hint: d.hint })),
   );
   const [selectedPresetId, setSelectedPresetId] = useState<string | null>(null);
 
-  // Step 2 — wardrobe (default to GARMENTS[0] so garment is never null)
   const [selectedGarment, setSelectedGarment] = useState<Garment | null>(GARMENTS[0]);
   const [uploadedGarmentUrl, setUploadedGarmentUrl] = useState<string | null>(null);
   const [bgRemoval, setBgRemoval] = useState(true);
 
-  // Step 3 & 4 — fitting, cache & real result
   const [fitting, setFitting] = useState(false);
   const [tryonResultUrl, setTryonResultUrl] = useState<string | null>(null);
   const [resultCache, setResultCache] = useState<Record<string, string>>({});
-  const [isRegeneration, setIsRegeneration] = useState(false);
 
-  // Step 4 — showcase
   const [savedFits, setSavedFits] = useState<SavedFit[]>(INITIAL_SAVED_FITS);
   const [justSaved, setJustSaved] = useState(false);
 
-  // Drawers / theme
   const [lightingOpen, setLightingOpen] = useState(false);
   const [savedOpen, setSavedOpen] = useState(false);
-  const [lighting, setLighting] = useState<LightingPreset>('neutral');
-  const [lightingAutoRotate, setLightingAutoRotate] = useState(true);
+  const [lighting, setLighting] = useState<LightingPreset>('obsidian');
+  const [lightingAutoRotate, setLightingAutoRotate] = useState(false);
 
-  // Auto-rotate studio lighting every 7 seconds if enabled
+  /* Hash routing: #/studio ↔ studio view */
+  useEffect(() => {
+    const onHash = () => setView(viewFromHash());
+    window.addEventListener('hashchange', onHash);
+    return () => window.removeEventListener('hashchange', onHash);
+  }, []);
+
+  const goLanding = useCallback(() => {
+    setView('landing');
+    setActiveNav('home');
+    if (window.location.hash) {
+      history.replaceState(null, '', window.location.pathname + window.location.search);
+    }
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+  }, []);
+
+  const launchStudio = useCallback(() => {
+    setView('studio');
+    setActiveStep(1);
+    window.location.hash = 'studio';
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+  }, []);
+
   useEffect(() => {
     if (!lightingAutoRotate) return;
-    const presets: LightingPreset[] = ['neutral', 'golden', 'cyberpunk'];
+    const presets: LightingPreset[] = ['obsidian', 'golden', 'neutral', 'cyberpunk'];
     const timer = setInterval(() => {
       setLighting((prev) => {
         const nextIndex = (presets.indexOf(prev) + 1) % presets.length;
@@ -75,7 +94,6 @@ function App() {
     return () => clearInterval(timer);
   }, [lightingAutoRotate]);
 
-  /* --------------------------- Derived values -------------------------- */
   const modelFrontUrl = useMemo(
     () => angles.find((a) => a.id === 'front')?.url,
     [angles],
@@ -86,7 +104,8 @@ function App() {
   );
   const activePreset = selectedPresetId ?? MODEL_PRESETS[0].id;
   const resultImages = RESULT_IMAGES[activePreset] ?? RESULT_IMAGES[MODEL_PRESETS[0].id];
-  const garmentName = selectedGarment?.name ?? (uploadedGarmentUrl ? 'Uploaded Garment' : 'selected garment');
+  const garmentName =
+    selectedGarment?.name ?? (uploadedGarmentUrl ? 'Uploaded Garment' : 'selected garment');
 
   const cacheKey = useMemo(
     () => (modelFrontUrl && garmentImageUrl ? `${modelFrontUrl}_${garmentImageUrl}` : null),
@@ -100,23 +119,16 @@ function App() {
     return [1, activeStep];
   }, [activeStep]);
 
-  /* ------------------------------ Handlers ----------------------------- */
   function handleNavChange(id: string) {
     setActiveNav(id);
-    if (id === 'studio') {
-      document.getElementById('studio')?.scrollIntoView({ behavior: 'smooth', block: 'start' });
-    } else if (id === 'lookbook') {
-      setActiveStep(2);
-      document.getElementById('studio')?.scrollIntoView({ behavior: 'smooth', block: 'start' });
-    } else if (id === 'lighting') {
-      setLightingOpen(true);
-    } else if (id === 'how') {
-      document.getElementById('how')?.scrollIntoView({ behavior: 'smooth', block: 'start' });
+    if (id === 'home') {
+      window.scrollTo({ top: 0, behavior: 'smooth' });
+      return;
     }
+    document.getElementById(id)?.scrollIntoView({ behavior: 'smooth', block: 'start' });
   }
 
   function startFitting() {
-    setIsRegeneration(false);
     setActiveStep(3);
     setFitting(true);
   }
@@ -130,7 +142,6 @@ function App() {
       });
     }
     setTryonResultUrl(null);
-    setIsRegeneration(true);
     setActiveStep(3);
     setFitting(true);
   }
@@ -141,7 +152,6 @@ function App() {
     }
     setTryonResultUrl(realUrl);
     setFitting(false);
-    setIsRegeneration(false);
     setActiveStep(4);
   }
 
@@ -164,177 +174,117 @@ function App() {
     setSavedFits((prev) => prev.filter((f) => f.id !== id));
   }
 
-  /* ------------------------------- Render ------------------------------ */
   return (
     <div className="relative min-h-screen">
       <AmbientBackground preset={lighting} />
       <ParticleField preset={lighting} />
-      <ScrollProgressBar />
+      {view === 'landing' && <ScrollProgressBar />}
       <CursorSparkTrail />
 
       <TopGlassNav
+        view={view}
         savedCount={savedFits.length}
         onOpenLighting={() => setLightingOpen(true)}
         onOpenSaved={() => setSavedOpen(true)}
         activeNav={activeNav}
         onNavChange={handleNavChange}
-        ambientToggle={<AmbientAudioToggle />}
+        onLaunchStudio={launchStudio}
+        onBackToLanding={goLanding}
         activeStep={activeStep}
+        reachableSteps={reachableSteps}
+        onStepChange={setActiveStep}
       />
 
-      <main id="studio">
-        <HeroHeader />
-
-        <Reveal>
-          <StudioWorkspace
-            activeStep={activeStep}
-            onStepChange={setActiveStep}
-            reachableSteps={reachableSteps}
-            fullBleedContent={
-              activeStep === 4 ? (
-                <Step4RunwayShowcase
-                  beforeUrl={modelFrontUrl ?? ''}
-                  afterUrls={resultImages}
-                  realResultUrl={tryonResultUrl ?? cachedResultUrl}
-                  garmentThumbnail={garmentImageUrl}
-                  garmentName={garmentName}
-                  garmentBrand={selectedGarment?.brand}
-                  isLoading={fitting}
-                  onSave={saveFit}
-                  onRegenerate={handleForceRegenerate}
-                  justSaved={justSaved}
+      {view === 'landing' ? (
+        <LandingPage onLaunchStudio={launchStudio} />
+      ) : (
+        <main id="studio" className="pb-10">
+          <Reveal>
+            <StudioWorkspace
+              activeStep={activeStep}
+              onStepChange={setActiveStep}
+              reachableSteps={reachableSteps}
+              fullBleedContent={
+                activeStep === 4 ? (
+                  <Step4RunwayShowcase
+                    beforeUrl={modelFrontUrl ?? ''}
+                    afterUrls={resultImages}
+                    realResultUrl={tryonResultUrl ?? cachedResultUrl}
+                    garmentThumbnail={garmentImageUrl}
+                    garmentName={garmentName}
+                    garmentBrand={selectedGarment?.brand}
+                    isLoading={fitting}
+                    onSave={saveFit}
+                    onRegenerate={handleForceRegenerate}
+                    justSaved={justSaved}
+                  />
+                ) : undefined
+              }
+            >
+              {activeStep === 1 && (
+                <Step1ModelStudio
+                  angles={angles}
+                  setAngles={setAngles}
+                  selectedPresetId={selectedPresetId}
+                  setSelectedPresetId={setSelectedPresetId}
+                  onContinue={() => setActiveStep(2)}
                 />
-              ) : undefined
-            }
-          >
-            {activeStep === 1 && (
-              <Step1ModelStudio
-                angles={angles}
-                setAngles={setAngles}
-                selectedPresetId={selectedPresetId}
-                setSelectedPresetId={setSelectedPresetId}
-                onContinue={() => setActiveStep(2)}
-              />
-            )}
+              )}
 
-            {activeStep === 2 && (
-              <Step2WardrobeCloset
-                selectedGarment={selectedGarment}
-                setSelectedGarment={setSelectedGarment}
-                uploadedGarmentUrl={uploadedGarmentUrl}
-                setUploadedGarmentUrl={setUploadedGarmentUrl}
-                bgRemoval={bgRemoval}
-                setBgRemoval={setBgRemoval}
-                onBack={() => setActiveStep(1)}
-                onContinue={startFitting}
-              />
-            )}
+              {activeStep === 2 && (
+                <Step2WardrobeCloset
+                  selectedGarment={selectedGarment}
+                  setSelectedGarment={setSelectedGarment}
+                  uploadedGarmentUrl={uploadedGarmentUrl}
+                  setUploadedGarmentUrl={setUploadedGarmentUrl}
+                  bgRemoval={bgRemoval}
+                  setBgRemoval={setBgRemoval}
+                  onBack={() => setActiveStep(1)}
+                  onContinue={startFitting}
+                />
+              )}
 
-            {activeStep === 3 && (
-              <Step3NeuralFitting
-                modelImageUrl={modelFrontUrl}
-                garmentImageUrl={garmentImageUrl ?? undefined}
-                garmentName={garmentName}
-                cachedResultUrl={cachedResultUrl}
-                isRegeneration={isRegeneration}
-                onComplete={onFittingComplete}
-                onBack={() => setActiveStep(2)}
-                onForceRegenerate={handleForceRegenerate}
-              />
-            )}
-          </StudioWorkspace>
-        </Reveal>
-      </main>
+              {activeStep === 3 && (
+                <Step3NeuralFitting
+                  modelImageUrl={modelFrontUrl ?? null}
+                  garmentImageUrl={garmentImageUrl ?? null}
+                  garmentName={garmentName}
+                  onComplete={onFittingComplete}
+                  onBack={() => setActiveStep(2)}
+                  onForceRegenerate={handleForceRegenerate}
+                />
+              )}
+            </StudioWorkspace>
+          </Reveal>
+        </main>
+      )}
 
-      <HowItWorks />
-
-      {/* Footer */}
-      <footer className="mx-auto max-w-7xl px-4 py-12 sm:px-6">
-        <Reveal>
-          <GlassPanel className="flex flex-col items-center justify-between gap-4 px-6 py-6 sm:flex-row">
-            <div className="flex items-center gap-2">
-              <FitMirrorsLogo size="sm" />
-            </div>
-            <p className="text-center text-xs text-silver-muted">
-              FitMirrors — Millimeter-precision photorealistic AI try-on for modern wardrobes.
-            </p>
-            <p className="text-xs text-silver-muted/60">© 2026 FitMirrors AI</p>
-          </GlassPanel>
-        </Reveal>
-      </footer>
-
-      {/* Drawers + floating widget */}
+      {/* Theme drawer — landing + studio */}
       <LightingDrawer
         open={lightingOpen}
         onClose={() => setLightingOpen(false)}
         preset={lighting}
         onPresetChange={(p) => {
           setLighting(p);
-          setLightingAutoRotate(false); // Locking a single preset stops auto-rotation
+          setLightingAutoRotate(false);
         }}
         autoRotate={lightingAutoRotate}
         onToggleAutoRotate={() => setLightingAutoRotate((prev) => !prev)}
       />
-      <SavedFitsDrawer
-        open={savedOpen}
-        onClose={() => setSavedOpen(false)}
-        fits={savedFits}
-        onRemove={removeFit}
-      />
-      <AuraStylist />
+
+      {/* Studio-only tools */}
+      {view === 'studio' && (
+        <>
+          <SavedFitsDrawer
+            open={savedOpen}
+            onClose={() => setSavedOpen(false)}
+            fits={savedFits}
+            onRemove={removeFit}
+          />
+          <AuraStylist />
+        </>
+      )}
     </div>
-  );
-}
-
-/* ---------------- Plain-Language 3-Step "How It Works" Section ---------------- */
-
-const THREE_STEPS = [
-  {
-    num: '01',
-    title: 'Upload Your Photo',
-    text: 'Take or select a clear full-body photo standing straight against any background.',
-  },
-  {
-    num: '02',
-    title: 'Pick or Upload a Garment',
-    text: 'Choose from our curated luxury collection or upload your own clothing item.',
-  },
-  {
-    num: '03',
-    title: 'See Your AI Try-On Instantly',
-    text: 'Our generative engine renders a realistic preview of how the garment fits your body.',
-  },
-];
-
-function HowItWorks() {
-  return (
-    <section id="how" className="mx-auto max-w-7xl px-4 py-16 sm:px-6">
-      <Reveal>
-        <div className="mb-10 text-center">
-          <SectionLabel>Simple & Instant</SectionLabel>
-          <h2 className="mt-2 font-serif text-3xl font-bold uppercase tracking-wide-luxe text-stone-100 sm:text-4xl">
-            How It <span className="text-gold-accent">Works</span>
-          </h2>
-          <p className="mx-auto mt-3 max-w-xl text-sm text-stone-400">
-            Three easy steps to experience photorealistic virtual try-on from any device.
-          </p>
-        </div>
-      </Reveal>
-
-      <div className="grid grid-cols-1 gap-6 sm:grid-cols-3">
-        {THREE_STEPS.map((step, i) => (
-          <Reveal key={step.num} delay={i * 0.1}>
-            <TiltCard maxDeg={6}>
-              <GlassPanel hover shimmer trace className="relative flex h-full flex-col p-6 border-stone-800 bg-stone-900/80">
-                <span className="font-serif text-4xl font-bold text-gold-accent/40 mb-4">{step.num}</span>
-                <h3 className="text-base font-bold uppercase tracking-wide-luxe text-stone-100">{step.title}</h3>
-                <p className="mt-2 text-xs leading-relaxed text-stone-400">{step.text}</p>
-              </GlassPanel>
-            </TiltCard>
-          </Reveal>
-        ))}
-      </div>
-    </section>
   );
 }
 
