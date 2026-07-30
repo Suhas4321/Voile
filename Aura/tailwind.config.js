@@ -9,21 +9,24 @@ export default {
       },
       colors: {
         obsidian: {
-          base: '#08090D',
-          surface: '#101218',
-          DEFAULT: '#08090D',
-        },
-        cyan: {
-          aura: '#00E5FF',
+          base: '#0C0A09',       // Warm stone charcoal background
+          surface: '#1C1917',    // Warm stone-900 surface
+          card: '#292524',       // Warm stone-800 card
+          border: '#44403C',     // Warm stone-700 border
+          DEFAULT: '#0C0A09',
         },
         gold: {
-          aura: '#E8C468',
+          aura: '#D4AF37',       // Metallic Luxury Gold
+          accent: '#E8C468',     // Champagne Gold
+          warm: '#F59E0B',       // Warm Amber Gold
+          deep: '#B45309',       // Deep Bronze
         },
-        violet: {
-          aura: '#8B3FE0',
+        amber: {
+          aura: '#F59E0B',
         },
         silver: {
-          muted: '#9A9CA8',
+          muted: '#A8A29E',      // Warm Stone Muted Grey
+          light: '#E7E5E4',      // Warm Stone Off-White
         },
       },
       animation: {
@@ -90,8 +93,8 @@ export default {
           '100%': { opacity: '1', transform: 'scale(1)' },
         },
         skeletonPulse: {
-          '0%,100%': { opacity: '0.85', boxShadow: '0 0 8px 2px rgba(0,229,255,0.7)' },
-          '50%': { opacity: '1', boxShadow: '0 0 14px 4px rgba(0,229,255,0.95)' },
+          '0%,100%': { opacity: '0.85', boxShadow: '0 0 8px 2px rgba(212,175,55,0.6)' },
+          '50%': { opacity: '1', boxShadow: '0 0 14px 4px rgba(232,196,104,0.9)' },
         },
         gradientX: {
           '0%,100%': { backgroundPosition: '0% 50%' },

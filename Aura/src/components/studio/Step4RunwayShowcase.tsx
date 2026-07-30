@@ -12,6 +12,7 @@ import { type AngleId } from '@/lib/data';
  *    - Desktop: mouse wheel zoom + drag pan.
  *    - Mobile: touch pan & pinch zoom.
  * 3. "You Tried On" Garment Chip below the image frame.
+ * 4. Warm Gold Luxury styling.
  * ============================================================ */
 
 interface Step4RunwayShowcaseProps {
@@ -61,7 +62,6 @@ export function Step4RunwayShowcase({
   const frameRef = useRef<HTMLDivElement | null>(null);
 
   const hasRealResult = Boolean(realResultUrl);
-  // Use real AI result when available; otherwise fall back to preset angle image
   const afterUrl = realResultUrl || afterUrls[angle];
 
   /* Dynamic natural aspect ratio detection */
@@ -138,7 +138,7 @@ export function Step4RunwayShowcase({
     if (!afterUrl) return;
     const a = document.createElement('a');
     a.href = afterUrl;
-    a.download = `voile-tryon-${Date.now()}.png`;
+    a.download = `fitmirrors-tryon-${Date.now()}.png`;
     document.body.appendChild(a);
     a.click();
     document.body.removeChild(a);
@@ -146,7 +146,7 @@ export function Step4RunwayShowcase({
 
   function handleShare() {
     if (navigator.share && afterUrl) {
-      navigator.share({ title: 'VOILE AI Try-On', url: afterUrl }).catch(() => {});
+      navigator.share({ title: 'FitMirrors AI Try-On', url: afterUrl }).catch(() => {});
     } else if (afterUrl) {
       navigator.clipboard.writeText(afterUrl);
     }
@@ -166,38 +166,38 @@ export function Step4RunwayShowcase({
           style={{
             aspectRatio: aspectRatio ? `${aspectRatio}` : '3/4',
           }}
-          className="relative mx-auto min-h-[380px] max-h-[55vh] sm:max-h-[70vh] w-full max-w-[500px] overflow-hidden rounded-2xl border border-white/10 bg-obsidian-surface shadow-2xl select-none"
+          className="relative mx-auto min-h-[380px] max-h-[55vh] sm:max-h-[70vh] w-full max-w-[500px] overflow-hidden rounded-2xl border border-stone-800 bg-stone-950 shadow-2xl select-none"
         >
           {/* STATE 1: LOADING SKELETON */}
           {(isLoading || (imgLoading && (afterUrl || beforeUrl))) && (
-            <div className="absolute inset-0 z-30 flex flex-col items-center justify-center bg-obsidian-surface p-6 text-center">
-              <div className="relative flex h-16 w-16 items-center justify-center rounded-full bg-cyan-aura/10 shadow-[0_0_30px_rgba(0,229,255,0.3)]">
-                <Sparkles className="h-8 w-8 text-cyan-aura animate-spin-slow" />
+            <div className="absolute inset-0 z-30 flex flex-col items-center justify-center bg-stone-950 p-6 text-center">
+              <div className="relative flex h-16 w-16 items-center justify-center rounded-full bg-gold-accent/10 shadow-[0_0_30px_rgba(212,175,55,0.3)]">
+                <Sparkles className="h-8 w-8 text-gold-accent animate-spin-slow" />
               </div>
-              <p className="mt-4 text-sm font-semibold uppercase tracking-wide-luxe text-white">
+              <p className="mt-4 text-sm font-semibold uppercase tracking-wide-luxe text-stone-100">
                 Synthesizing AI Try-On…
               </p>
-              <p className="mt-1 text-xs text-silver-muted">
+              <p className="mt-1 text-xs text-stone-400">
                 Rendering 4K photorealistic neural drape
               </p>
-              <div className="mt-6 h-1.5 w-48 overflow-hidden rounded-full bg-white/10">
-                <div className="h-full rounded-full bg-gradient-to-r from-cyan-aura to-gold-aura animate-progress-shimmer" />
+              <div className="mt-6 h-1.5 w-48 overflow-hidden rounded-full bg-stone-800">
+                <div className="h-full rounded-full bg-gradient-to-r from-gold-accent to-amber-400 animate-progress-shimmer" />
               </div>
             </div>
           )}
 
           {/* STATE 2: EMPTY / ERROR PLACEHOLDER */}
           {!isLoading && (imageError || (!afterUrl && !beforeUrl)) && (
-            <div className="absolute inset-0 flex flex-col items-center justify-center bg-obsidian-surface p-6 text-center">
-              <AlertCircle className="h-10 w-10 text-gold-aura/80 mb-3" />
-              <p className="text-sm font-semibold uppercase tracking-wide-luxe text-white">
+            <div className="absolute inset-0 flex flex-col items-center justify-center bg-stone-950 p-6 text-center">
+              <AlertCircle className="h-10 w-10 text-gold-accent/80 mb-3" />
+              <p className="text-sm font-semibold uppercase tracking-wide-luxe text-stone-100">
                 Fitting Result Ready Soon
               </p>
-              <p className="mt-1 max-w-xs text-xs text-silver-muted">
+              <p className="mt-1 max-w-xs text-xs text-stone-400">
                 Select your model photo & garment in previous steps, then click "Generate AI Try-On".
               </p>
-              <GlowButton variant="cyan" onClick={onRegenerate} className="mt-5">
-                <RefreshCw className="h-4 w-4" />
+              <GlowButton variant="gold" onClick={onRegenerate} className="mt-5">
+                <RefreshCw className="h-4 w-4 fill-stone-950" />
                 Return to Fitting
               </GlowButton>
             </div>
@@ -212,8 +212,8 @@ export function Step4RunwayShowcase({
                 alt="AI try-on result"
                 onLoad={handleImageLoad}
                 onError={() => setImageError(true)}
-                className="absolute inset-0 h-full w-full object-contain bg-obsidian cursor-zoom-in"
-                style={hasRealResult ? {} : { filter: 'saturate(1.25) contrast(1.08) brightness(1.04) hue-rotate(8deg)' }}
+                className="absolute inset-0 h-full w-full object-contain bg-stone-950 cursor-zoom-in"
+                style={hasRealResult ? {} : { filter: 'saturate(1.25) contrast(1.08) brightness(1.04)' }}
                 onClick={() => setViewerOpen(true)}
                 draggable={false}
               />
@@ -227,7 +227,7 @@ export function Step4RunwayShowcase({
                   <img
                     src={beforeUrl}
                     alt="Original photo"
-                    className="absolute inset-0 h-full object-contain bg-obsidian cursor-zoom-in"
+                    className="absolute inset-0 h-full object-contain bg-stone-950 cursor-zoom-in"
                     style={{
                       width: frameRef.current ? `${frameRef.current.getBoundingClientRect().width}px` : '100%',
                       maxWidth: 'none',
@@ -241,29 +241,29 @@ export function Step4RunwayShowcase({
               {/* Divider handle */}
               {beforeUrl && (
                 <div
-                  className="absolute inset-y-0 z-10 w-px cursor-ew-resize bg-white/70 shadow-[0_0_12px_rgba(0,229,255,0.8)]"
+                  className="absolute inset-y-0 z-10 w-px cursor-ew-resize bg-gold-accent/80 shadow-[0_0_12px_rgba(212,175,55,0.8)]"
                   style={{ left: `${split}%` }}
                   onPointerDown={(e) => {
                     e.preventDefault();
                     setDragging(true);
                   }}
                 >
-                  <div className="absolute left-1/2 top-1/2 flex h-11 w-11 -translate-x-1/2 -translate-y-1/2 items-center justify-center rounded-full bg-white/90 shadow-lg backdrop-blur-md">
-                    <Maximize2 className="h-4 w-4 rotate-90 text-obsidian" />
+                  <div className="absolute left-1/2 top-1/2 flex h-11 w-11 -translate-x-1/2 -translate-y-1/2 items-center justify-center rounded-full bg-stone-900 border border-gold-accent/60 shadow-lg backdrop-blur-md">
+                    <Maximize2 className="h-4 w-4 rotate-90 text-gold-accent" />
                   </div>
                 </div>
               )}
 
               {/* Before/After labels */}
-              <span className="pointer-events-none absolute bottom-14 left-3 z-20 rounded-full bg-obsidian/70 px-2.5 py-1 text-[10px] font-semibold uppercase tracking-wide-luxe text-white backdrop-blur-sm">
+              <span className="pointer-events-none absolute bottom-14 left-3 z-20 rounded-full bg-stone-950/80 px-2.5 py-1 text-[10px] font-semibold uppercase tracking-wide-luxe text-stone-300 backdrop-blur-sm border border-stone-800">
                 Before
               </span>
-              <span className="pointer-events-none absolute bottom-14 right-3 z-20 rounded-full bg-cyan-aura/90 px-2.5 py-1 text-[10px] font-bold uppercase tracking-wide-luxe text-obsidian backdrop-blur-sm">
+              <span className="pointer-events-none absolute bottom-14 right-3 z-20 rounded-full bg-gold-accent px-2.5 py-1 text-[10px] font-bold uppercase tracking-wide-luxe text-stone-950 backdrop-blur-sm shadow-md">
                 After · AI
               </span>
 
               {/* Bottom floating pill — angle switchers + Fullscreen Zoom button */}
-              <div className="absolute bottom-3 left-1/2 z-20 flex -translate-x-1/2 items-center gap-2 rounded-full border border-white/[0.14] bg-obsidian/70 p-1.5 backdrop-blur-xl">
+              <div className="absolute bottom-3 left-1/2 z-20 flex -translate-x-1/2 items-center gap-2 rounded-full border border-stone-800 bg-stone-950/85 p-1.5 backdrop-blur-xl">
                 {!hasRealResult &&
                   ANGLES.map((a) => (
                     <button
@@ -271,17 +271,17 @@ export function Step4RunwayShowcase({
                       onClick={() => setAngle(a.id)}
                       className={`rounded-full px-3 py-1.5 text-[11px] font-semibold uppercase tracking-wide-luxe transition-all duration-300 ${
                         angle === a.id
-                          ? 'bg-white/[0.12] text-white shadow-[inset_0_0_12px_-4px_rgba(0,229,255,0.6)]'
-                          : 'text-silver-muted hover:text-white'
+                          ? 'bg-stone-800 text-gold-accent border border-gold-accent/30'
+                          : 'text-stone-400 hover:text-stone-100'
                       }`}
                     >
                       {a.label}
                     </button>
                   ))}
-                {!hasRealResult && <span className="mx-0.5 h-5 w-px bg-white/10" />}
+                {!hasRealResult && <span className="mx-0.5 h-5 w-px bg-stone-800" />}
                 <button
                   onClick={() => setViewerOpen(true)}
-                  className="flex items-center gap-1.5 rounded-full bg-cyan-aura/15 px-3 py-1.5 text-[11px] font-semibold uppercase tracking-wide-luxe text-cyan-aura transition-all duration-300 hover:bg-cyan-aura/25"
+                  className="flex items-center gap-1.5 rounded-full bg-gold-accent/15 px-3 py-1.5 text-[11px] font-semibold uppercase tracking-wide-luxe text-gold-accent transition-all duration-300 hover:bg-gold-accent/25"
                 >
                   <ZoomIn className="h-3.5 w-3.5" />
                   Full Screen
@@ -297,7 +297,7 @@ export function Step4RunwayShowcase({
               ].map((c) => (
                 <span
                   key={c}
-                  className={`pointer-events-none absolute h-5 w-5 rounded-[2px] border-cyan-aura/40 ${c}`}
+                  className={`pointer-events-none absolute h-5 w-5 rounded-[2px] border-gold-accent/40 ${c}`}
                 />
               ))}
             </>
@@ -305,149 +305,131 @@ export function Step4RunwayShowcase({
         </div>
       </div>
 
-      {/* "YOU TRIED ON" GARMENT CHIP — confirms which garment was applied */}
-      <div className="mx-auto mb-5 flex max-w-md items-center justify-between gap-3.5 rounded-2xl border border-cyan-aura/30 bg-obsidian-surface/90 px-4 py-3 shadow-[0_4px_20px_rgba(0,229,255,0.15)] backdrop-blur-xl">
-        <div className="flex items-center gap-3 min-w-0">
+      {/* Garment chip metadata badge */}
+      <div className="mx-auto flex max-w-[500px] items-center justify-between rounded-xl border border-stone-800 bg-stone-900/80 px-4 py-2.5">
+        <div className="flex items-center gap-3">
           {garmentThumbnail ? (
-            <img
-              src={garmentThumbnail}
-              alt={garmentName}
-              className="h-11 w-11 shrink-0 rounded-xl border border-cyan-aura/50 object-cover shadow-md"
-            />
+            <img src={garmentThumbnail} alt={garmentName} className="h-9 w-9 rounded-lg object-contain bg-stone-950 p-1 border border-stone-800" />
           ) : (
-            <div className="flex h-11 w-11 shrink-0 items-center justify-center rounded-xl bg-cyan-aura/10 border border-cyan-aura/40 text-cyan-aura">
-              <Shirt className="h-5 w-5" />
+            <div className="flex h-9 w-9 items-center justify-center rounded-lg bg-stone-800 text-gold-accent">
+              <Shirt className="h-4 w-4" />
             </div>
           )}
-          <div className="min-w-0 text-left">
-            <div className="flex items-center gap-1.5">
-              <span className="text-[9.5px] font-bold uppercase tracking-wide-luxe text-cyan-aura">
-                Equipped Garment
-              </span>
-              {garmentBrand && (
-                <>
-                  <span className="text-[10px] text-white/30">•</span>
-                  <span className="text-[9.5px] uppercase tracking-wide-luxe text-gold-aura font-medium">
-                    {garmentBrand}
-                  </span>
-                </>
-              )}
+          <div>
+            <div className="text-[10px] uppercase tracking-wide-luxe text-gold-accent">
+              {garmentBrand || 'FitMirrors AI'}
             </div>
-            <div className="truncate text-xs font-semibold text-white mt-0.5">
-              {garmentName}
-            </div>
+            <div className="text-xs font-semibold text-stone-100">{garmentName}</div>
           </div>
         </div>
-        <div className="flex shrink-0 items-center gap-1 rounded-full bg-cyan-aura/10 px-2.5 py-1 border border-cyan-aura/30 text-[10px] font-semibold text-cyan-aura uppercase tracking-wide-luxe">
-          <Sparkles className="h-3 w-3 text-cyan-aura animate-glow-pulse" />
-          Tried On
-        </div>
-      </div>
 
-      {/* Action bar — below the image and chip */}
-      <div className="mx-auto flex max-w-2xl flex-wrap items-center justify-center gap-3 px-4 pb-8">
-        <GlowButton variant="cyan" onClick={handleDownload} disabled={!afterUrl}>
-          <Download className="h-4 w-4" />
-          4K Render
-        </GlowButton>
-        <GlowButton variant={justSaved ? 'gold' : 'ghost'} onClick={onSave} disabled={!afterUrl}>
-          {justSaved ? <Check className="h-4 w-4" /> : <Bookmark className="h-4 w-4" />}
-          {justSaved ? 'Saved' : 'Save'}
-        </GlowButton>
-        <GlowButton variant="ghost" onClick={handleShare} disabled={!afterUrl}>
-          <Share2 className="h-4 w-4" />
-          Share
-        </GlowButton>
-        <GlowButton variant="outline" onClick={onRegenerate}>
-          <RefreshCw className="h-4 w-4" />
-          Re-Gen
-        </GlowButton>
-      </div>
-
-      {/* FULL-SCREEN IMAGE VIEWER OVERLAY MODAL */}
-      {viewerOpen && afterUrl && (
-        <div
-          className="fixed inset-0 z-50 flex items-center justify-center bg-obsidian/95 backdrop-blur-2xl transition-all duration-300"
-          onClick={() => {
-            setViewerOpen(false);
-            setZoomScale(1);
-            setPan({ x: 0, y: 0 });
-          }}
-        >
-          {/* Top Controls */}
-          <div
-            className="absolute top-4 right-4 z-50 flex items-center gap-3 rounded-full border border-white/10 bg-white/[0.05] p-2 backdrop-blur-md"
-            onClick={(e) => e.stopPropagation()}
+        {/* Action bar */}
+        <div className="flex items-center gap-2">
+          <button
+            onClick={onSave}
+            className={`flex h-9 items-center gap-1.5 rounded-full border px-3 text-xs font-semibold transition-all duration-300 cursor-pointer ${
+              justSaved
+                ? 'border-gold-accent bg-gold-accent/20 text-gold-accent'
+                : 'border-stone-800 bg-stone-900 text-stone-300 hover:border-gold-accent/40 hover:text-stone-100'
+            }`}
           >
-            <button
-              onClick={() => setZoomScale((z) => Math.min(4, z + 0.5))}
-              className="flex h-9 w-9 items-center justify-center rounded-full text-silver-muted hover:bg-white/10 hover:text-white"
-              title="Zoom In"
-            >
-              <ZoomIn className="h-4 w-4" />
-            </button>
-            <button
-              onClick={() => setZoomScale((z) => Math.max(1, z - 0.5))}
-              className="flex h-9 w-9 items-center justify-center rounded-full text-silver-muted hover:bg-white/10 hover:text-white"
-              title="Zoom Out"
-            >
-              <ZoomOut className="h-4 w-4" />
-            </button>
-            <button
-              onClick={() => {
-                setZoomScale(1);
-                setPan({ x: 0, y: 0 });
-              }}
-              className="flex h-9 w-9 items-center justify-center rounded-full text-silver-muted hover:bg-white/10 hover:text-white"
-              title="Reset Zoom"
-            >
-              <RotateCcw className="h-4 w-4" />
-            </button>
-            <span className="h-4 w-px bg-white/10" />
-            <button
-              onClick={() => {
-                setViewerOpen(false);
-                setZoomScale(1);
-                setPan({ x: 0, y: 0 });
-              }}
-              className="flex h-9 w-9 items-center justify-center rounded-full bg-cyan-aura/20 text-cyan-aura hover:bg-cyan-aura/30"
-              title="Close (Esc)"
-            >
-              <X className="h-5 w-5" />
-            </button>
+            {justSaved ? <Check className="h-3.5 w-3.5" /> : <Bookmark className="h-3.5 w-3.5" />}
+            <span>{justSaved ? 'Saved' : 'Save'}</span>
+          </button>
+          <GlowButton variant="gold" onClick={onRegenerate}>
+            <RefreshCw className="h-3.5 w-3.5 fill-stone-950" />
+            <span className="hidden sm:inline">Try Another</span>
+          </GlowButton>
+        </div>
+      </div>
+
+      {/* Full-Screen Zoom Viewer Modal */}
+      {viewerOpen && (
+        <div className="fixed inset-0 z-50 flex items-center justify-center bg-stone-950/95 backdrop-blur-2xl animate-fade-in">
+          {/* Modal Header */}
+          <div className="absolute top-4 left-4 right-4 z-50 flex items-center justify-between px-2">
+            <div className="flex items-center gap-2 rounded-full border border-stone-800 bg-stone-900/80 px-4 py-1.5 backdrop-blur-md">
+              <Sparkles className="h-4 w-4 text-gold-accent" />
+              <span className="text-xs font-semibold uppercase tracking-wide-luxe text-stone-200">
+                FitMirrors 4K Inspector
+              </span>
+            </div>
+            <div className="flex items-center gap-2">
+              <button
+                onClick={() => setZoomScale((prev) => Math.min(4, prev + 0.5))}
+                className="flex h-9 w-9 items-center justify-center rounded-full border border-stone-800 bg-stone-900/80 text-stone-300 hover:text-gold-accent"
+                title="Zoom In"
+              >
+                <ZoomIn className="h-4 w-4" />
+              </button>
+              <button
+                onClick={() => setZoomScale((prev) => Math.max(1, prev - 0.5))}
+                className="flex h-9 w-9 items-center justify-center rounded-full border border-stone-800 bg-stone-900/80 text-stone-300 hover:text-gold-accent"
+                title="Zoom Out"
+              >
+                <ZoomOut className="h-4 w-4" />
+              </button>
+              <button
+                onClick={() => {
+                  setZoomScale(1);
+                  setPan({ x: 0, y: 0 });
+                }}
+                className="flex h-9 w-9 items-center justify-center rounded-full border border-stone-800 bg-stone-900/80 text-stone-300 hover:text-gold-accent"
+                title="Reset View"
+              >
+                <RotateCcw className="h-4 w-4" />
+              </button>
+              <button
+                onClick={() => {
+                  setViewerOpen(false);
+                  setZoomScale(1);
+                  setPan({ x: 0, y: 0 });
+                }}
+                className="flex h-9 w-9 items-center justify-center rounded-full border border-stone-800 bg-stone-900/80 text-stone-300 hover:text-white"
+                title="Close"
+              >
+                <X className="h-5 w-5" />
+              </button>
+            </div>
           </div>
 
-          {/* Image Viewport Container */}
+          {/* Modal Content / Canvas Area */}
           <div
-            className="relative flex h-full w-full items-center justify-center overflow-hidden p-4 select-none"
+            className="h-full w-full flex items-center justify-center overflow-hidden cursor-grab active:cursor-grabbing p-8"
             onWheel={handleWheel}
             onMouseDown={(e) => handlePanStart(e.clientX, e.clientY)}
             onMouseMove={(e) => handlePanMove(e.clientX, e.clientY)}
             onMouseUp={handlePanEnd}
-            onTouchStart={(e) => {
-              if (e.touches[0]) handlePanStart(e.touches[0].clientX, e.touches[0].clientY);
-            }}
-            onTouchMove={(e) => {
-              if (e.touches[0]) handlePanMove(e.touches[0].clientX, e.touches[0].clientY);
-            }}
-            onTouchEnd={handlePanEnd}
-            onClick={(e) => e.stopPropagation()}
+            onMouseLeave={handlePanEnd}
           >
             <img
-              src={afterUrl}
-              alt="Full screen AI result"
-              className="max-h-[90vh] max-w-[90vw] object-contain transition-transform duration-100 ease-out"
+              src={afterUrl || beforeUrl}
+              alt="Full resolution result"
+              className="max-h-[85vh] max-w-[90vw] object-contain transition-transform duration-100 ease-out select-none drop-shadow-2xl"
               style={{
                 transform: `translate(${pan.x}px, ${pan.y}px) scale(${zoomScale})`,
-                cursor: zoomScale > 1 ? (isPanning ? 'grabbing' : 'grab') : 'zoom-in',
               }}
               draggable={false}
             />
           </div>
 
-          {/* Hint Overlay at bottom */}
-          <div className="pointer-events-none absolute bottom-6 left-1/2 -translate-x-1/2 rounded-full border border-white/10 bg-obsidian/70 px-4 py-1.5 text-xs text-silver-muted backdrop-blur-md">
-            Scroll to zoom · Drag to pan · Press Esc to close
+          {/* Modal Footer Controls */}
+          <div className="absolute bottom-4 left-1/2 z-50 flex -translate-x-1/2 items-center gap-3 rounded-full border border-stone-800 bg-stone-900/80 px-5 py-2 backdrop-blur-md">
+            <button
+              onClick={handleDownload}
+              className="flex items-center gap-1.5 text-xs font-semibold uppercase tracking-wide-luxe text-stone-300 hover:text-gold-accent"
+            >
+              <Download className="h-4 w-4" />
+              Download High-Res
+            </button>
+            <span className="h-4 w-px bg-stone-800" />
+            <button
+              onClick={handleShare}
+              className="flex items-center gap-1.5 text-xs font-semibold uppercase tracking-wide-luxe text-stone-300 hover:text-gold-accent"
+            >
+              <Share2 className="h-4 w-4" />
+              Share
+            </button>
           </div>
         </div>
       )}

@@ -28,12 +28,11 @@ interface Spark {
 }
 
 const PALETTE = [
-  // cyan-electric family
-  { r: 0, g: 229, b: 255 },
-  { r: 60, g: 200, b: 240 },
-  // gold-champagne family
+  // Warm gold & amber luxury family
   { r: 232, g: 196, b: 104 },
-  { r: 245, g: 210, b: 130 },
+  { r: 212, g: 175, b: 55 },
+  { r: 245, g: 158, b: 11 },
+  { r: 250, g: 250, b: 249 },
 ];
 
 const MAX_PARTICLES = 150;

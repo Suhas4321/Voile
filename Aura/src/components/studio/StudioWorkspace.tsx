@@ -3,12 +3,10 @@ import { Camera, Shirt, Wand2, Eye, Check } from 'lucide-react';
 
 /* ============================================================
  * StudioWorkspace — outer container for the 4-step pipeline
- * with step progress indicators. The per-step content is
- * injected via render props keyed to the active step.
- *
+ * with step progress indicators.
  * Step 4 (Runway Showcase) renders OUTSIDE the glass wrapper
- * to achieve a true full-bleed viewport-edge layout. Pass its
- * content via the `fullBleedContent` prop.
+ * to achieve a true full-bleed viewport-edge layout.
+ * Warm Gold Luxury aesthetic.
  * ============================================================ */
 
 export type StepId = 1 | 2 | 3 | 4;
@@ -40,7 +38,7 @@ export function StudioWorkspace({
   const isFullBleed = activeStep === 4;
 
   return (
-    <section className={isFullBleed ? 'pt-16 sm:pt-24' : 'mx-auto max-w-7xl px-4 pt-16 sm:px-6 sm:pt-24'}>
+    <section id="studio" className={isFullBleed ? 'pt-16 sm:pt-24' : 'mx-auto max-w-7xl px-4 pt-16 sm:px-6 sm:pt-24'}>
       {/* Step progress indicators */}
       <div className={`mb-8 flex flex-col items-stretch gap-3 sm:flex-row sm:items-center ${isFullBleed ? 'mx-auto max-w-7xl px-4 sm:px-6' : ''}`}>
         {STEPS.map((step, i) => {
@@ -55,19 +53,19 @@ export function StudioWorkspace({
                 disabled={!reachable}
                 className={`group flex flex-1 items-center gap-3 rounded-2xl border px-3 py-3 text-left transition-all duration-500 sm:px-4 ${
                   isActive
-                    ? 'border-cyan-aura/50 bg-cyan-aura/[0.07] shadow-[0_0_28px_-8px_rgba(0,229,255,0.7)]'
+                    ? 'border-gold-accent/60 bg-gold-accent/15 shadow-[0_0_28px_-8px_rgba(212,175,55,0.6)]'
                     : isDone
-                      ? 'border-white/15 bg-white/[0.04]'
-                      : 'border-white/[0.08] bg-white/[0.02]'
-                } ${reachable ? 'cursor-pointer hover:border-white/25' : 'cursor-not-allowed opacity-55'}`}
+                      ? 'border-stone-800 bg-stone-900/60'
+                      : 'border-stone-800/40 bg-stone-900/20'
+                } ${reachable ? 'cursor-pointer hover:border-stone-700' : 'cursor-not-allowed opacity-45'}`}
               >
                 <span
                   className={`flex h-9 w-9 shrink-0 items-center justify-center rounded-full text-sm font-bold transition-all duration-500 ${
                     isActive
-                      ? 'bg-gradient-to-br from-cyan-aura to-cyan-400 text-obsidian shadow-[0_0_18px_-2px_rgba(0,229,255,0.8)]'
+                      ? 'bg-gradient-to-br from-gold-accent to-amber-500 text-stone-950 shadow-[0_0_18px_-2px_rgba(212,175,55,0.8)]'
                       : isDone
-                        ? 'bg-gold-aura/20 text-gold-aura'
-                        : 'bg-white/[0.06] text-silver-muted'
+                        ? 'bg-gold-accent/20 text-gold-accent'
+                        : 'bg-stone-800 text-stone-400'
                   }`}
                 >
                   {isDone ? <Check className="h-4 w-4" /> : <Icon className="h-4 w-4" />}
@@ -75,23 +73,23 @@ export function StudioWorkspace({
                 <div className="min-w-0 flex-1">
                   <div
                     className={`truncate text-xs font-semibold uppercase tracking-wide-luxe ${
-                      isActive ? 'text-white' : isDone ? 'text-white/80' : 'text-silver-muted'
+                      isActive ? 'text-stone-100' : isDone ? 'text-stone-300' : 'text-stone-400'
                     }`}
                   >
                     {step.label}
                   </div>
-                  <div className="hidden truncate text-[10px] text-silver-muted/70 sm:block">
+                  <div className="hidden truncate text-[10px] text-stone-400 sm:block">
                     {step.sub}
                   </div>
                 </div>
-                <span className="hidden text-sm font-bold text-silver-muted/50 sm:block">
+                <span className="hidden text-sm font-bold text-stone-600 sm:block">
                   0{step.id}
                 </span>
               </button>
               {i < STEPS.length - 1 && (
                 <div
                   className={`mx-1 hidden h-px w-6 shrink-0 transition-colors duration-500 sm:block ${
-                    activeStep > step.id ? 'bg-gold-aura/50' : 'bg-white/10'
+                    activeStep > step.id ? 'bg-gold-accent/50' : 'bg-stone-800'
                   }`}
                 />
               )}
@@ -102,7 +100,7 @@ export function StudioWorkspace({
 
       {/* Workspace body — glass-wrapped for Steps 1-3 */}
       {!isFullBleed && (
-        <div className="glass shimmer-sweep glass-trace specular overflow-hidden rounded-3xl p-4 sm:p-6 lg:p-8">
+        <div className="glass shimmer-sweep glass-trace specular overflow-hidden rounded-3xl p-4 sm:p-6 lg:p-8 border-stone-800 bg-stone-900/80">
           {children}
         </div>
       )}

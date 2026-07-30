@@ -13,8 +13,8 @@
   }
 
   body {
-    background-color: #08090D;
-    color: #F5F4F2;
+    background-color: #0C0A09;
+    color: #FAFAF9;
     font-family: 'Plus Jakarta Sans', Inter, system-ui, sans-serif;
     -webkit-font-smoothing: antialiased;
     -moz-osx-font-smoothing: grayscale;
@@ -22,7 +22,7 @@
   }
 
   ::selection {
-    background: rgba(0, 229, 255, 0.3);
+    background: rgba(212, 175, 55, 0.3);
     color: #ffffff;
   }
 
@@ -32,15 +32,15 @@
     height: 10px;
   }
   ::-webkit-scrollbar-track {
-    background: rgba(255, 255, 255, 0.02);
+    background: rgba(28, 25, 23, 0.5);
   }
   ::-webkit-scrollbar-thumb {
-    background: linear-gradient(180deg, rgba(0, 229, 255, 0.35), rgba(232, 196, 104, 0.35));
+    background: linear-gradient(180deg, rgba(212, 175, 55, 0.4), rgba(180, 83, 9, 0.4));
     border-radius: 99px;
-    border: 2px solid #08090D;
+    border: 2px solid #0C0A09;
   }
   ::-webkit-scrollbar-thumb:hover {
-    background: linear-gradient(180deg, rgba(0, 229, 255, 0.6), rgba(232, 196, 104, 0.6));
+    background: linear-gradient(180deg, rgba(232, 196, 104, 0.7), rgba(212, 175, 55, 0.7));
   }
 
   /* Mobile: step down blur for GPU headroom */
@@ -53,36 +53,35 @@
 
 @layer components {
   /* ============================================================
-   * Liquid Glass material — behavioral, not just visual.
+   * Liquid Glass material — Warm Golden Hour Luxury Edition.
    * Chrome-only: NEVER place behind product imagery.
    * ============================================================ */
   .glass {
-    @apply relative rounded-2xl border border-white/[0.14] bg-white/[0.05];
-    backdrop-filter: blur(var(--glass-blur)) saturate(140%);
-    -webkit-backdrop-filter: blur(var(--glass-blur)) saturate(140%);
+    @apply relative rounded-2xl border border-white/[0.12] bg-stone-900/60;
+    backdrop-filter: blur(var(--glass-blur)) saturate(130%);
+    -webkit-backdrop-filter: blur(var(--glass-blur)) saturate(130%);
     box-shadow:
-      inset 0 1px 0 rgba(255, 255, 255, 0.18),
-      inset 0 -1px 0 rgba(0, 0, 0, 0.3),
-      0 8px 32px rgba(0, 0, 0, 0.4);
+      inset 0 1px 0 rgba(255, 255, 255, 0.12),
+      inset 0 -1px 0 rgba(0, 0, 0, 0.4),
+      0 8px 32px rgba(0, 0, 0, 0.5);
     transition: border-color 0.5s ease, box-shadow 0.5s ease, transform 0.4s cubic-bezier(0.16, 1, 0.3, 1);
   }
   .glass-hover:hover {
-    border-color: rgba(255, 255, 255, 0.25);
+    border-color: rgba(212, 175, 55, 0.35);
     box-shadow:
-      0 12px 40px 0 rgba(0, 0, 0, 0.5),
-      0 0 30px 0 rgba(0, 229, 255, 0.12),
-      inset 0 1px 0 0 rgba(255, 255, 255, 0.22);
+      0 12px 40px 0 rgba(0, 0, 0, 0.6),
+      0 0 30px 0 rgba(212, 175, 55, 0.15),
+      inset 0 1px 0 0 rgba(255, 255, 255, 0.2);
   }
 
   /* Solid surface backing — for product imagery & small text.
      Zero blur so true colors are preserved. */
   .surface {
-    @apply rounded-2xl border border-white/[0.08] bg-obsidian-surface;
-    box-shadow: 0 8px 32px rgba(0, 0, 0, 0.5);
+    @apply rounded-2xl border border-stone-800 bg-stone-900;
+    box-shadow: 0 8px 32px rgba(0, 0, 0, 0.6);
   }
 
-  /* Specular sweep — a 1px gradient line travels across the
-     border every 7s. Staggered via animation-delay on cards. */
+  /* Specular sweep — a warm golden line travels across the border */
   .specular::before {
     content: '';
     position: absolute;
@@ -90,7 +89,7 @@
     left: 0;
     width: 30%;
     height: 1px;
-    background: linear-gradient(90deg, transparent, rgba(0, 229, 255, 0.6), rgba(232, 196, 104, 0.4), transparent);
+    background: linear-gradient(90deg, transparent, rgba(232, 196, 104, 0.7), rgba(212, 175, 55, 0.5), transparent);
     animation: specularSweep 7s ease-in-out infinite;
     pointer-events: none;
     opacity: 0.6;
@@ -100,10 +99,8 @@
   .specular:nth-child(4)::before { animation-delay: 1.2s; }
   .specular:nth-child(5)::before { animation-delay: 1.6s; }
   .specular:nth-child(6)::before { animation-delay: 2s; }
-  .specular:nth-child(7)::before { animation-delay: 2.4s; }
-  .specular:nth-child(8)::before { animation-delay: 2.8s; }
 
-  /* Animated running gradient border trace on hover */
+  /* Animated running gradient border trace on hover — Gold Only */
   .glass-trace {
     position: relative;
   }
@@ -116,7 +113,7 @@
     background: conic-gradient(
       from var(--trace-angle, 0deg),
       transparent 0%,
-      #00e5ff 20%,
+      #d4af37 20%,
       #e8c468 40%,
       transparent 55%,
       transparent 100%
@@ -133,7 +130,7 @@
     opacity: 1;
   }
 
-  /* 3D tilt card: spotlight follows cursor + smooth settle */
+  /* 3D tilt card: warm gold spotlight follows cursor */
   .tilt-card {
     transform-style: preserve-3d;
     transition: transform 0.3s cubic-bezier(0.22, 1, 0.36, 1);
@@ -146,7 +143,7 @@
     border-radius: inherit;
     background: radial-gradient(
       240px circle at var(--mx, 50%) var(--my, 50%),
-      rgba(0, 229, 255, 0.16),
+      rgba(212, 175, 55, 0.14),
       transparent 60%
     );
     opacity: 0;
@@ -173,8 +170,8 @@
       115deg,
       transparent 0%,
       transparent 35%,
-      rgba(255, 255, 255, 0.18) 48%,
-      rgba(0, 229, 255, 0.16) 52%,
+      rgba(255, 255, 255, 0.14) 48%,
+      rgba(212, 175, 55, 0.15) 52%,
       transparent 65%,
       transparent 100%
     );
@@ -185,14 +182,14 @@
     animation: shimmer 3.2s linear infinite;
   }
 
-  /* Gradient text */
+  /* Gradient text — Gold Only */
   .text-gradient-cyan {
     @apply bg-clip-text text-transparent;
-    background-image: linear-gradient(120deg, #00e5ff 0%, #4dd0e1 50%, #e8c468 130%);
+    background-image: linear-gradient(120deg, #F59E0B 0%, #E8C468 50%, #D4AF37 100%);
   }
   .text-gradient-gold {
     @apply bg-clip-text text-transparent;
-    background-image: linear-gradient(120deg, #e8c468 0%, #f6e27a 50%, #e8c468 100%);
+    background-image: linear-gradient(120deg, #E8C468 0%, #F59E0B 50%, #D4AF37 100%);
   }
 
   /* Glowing border button */
@@ -227,13 +224,11 @@
   .stagger > *:nth-child(4) { animation-delay: 0.26s; }
   .stagger > *:nth-child(5) { animation-delay: 0.33s; }
   .stagger > *:nth-child(6) { animation-delay: 0.40s; }
-  .stagger > *:nth-child(7) { animation-delay: 0.47s; }
-  .stagger > *:nth-child(8) { animation-delay: 0.54s; }
 
   .no-scrollbar::-webkit-scrollbar { display: none; }
   .no-scrollbar { -ms-overflow-style: none; scrollbar-width: none; }
 
-  /* Luxury range slider */
+  /* Luxury range slider — Gold Only */
   .aura-range {
     -webkit-appearance: none;
     appearance: none;
@@ -248,9 +243,9 @@
     width: 18px;
     height: 18px;
     border-radius: 50%;
-    background: linear-gradient(135deg, #00e5ff, #e8c468);
-    border: 2px solid #08090D;
-    box-shadow: 0 0 12px rgba(0, 229, 255, 0.7);
+    background: linear-gradient(135deg, #e8c468, #d4af37);
+    border: 2px solid #0C0A09;
+    box-shadow: 0 0 12px rgba(212, 175, 55, 0.7);
     cursor: pointer;
     transition: transform 0.2s ease;
   }
@@ -261,9 +256,9 @@
     width: 18px;
     height: 18px;
     border-radius: 50%;
-    background: linear-gradient(135deg, #00e5ff, #e8c468);
-    border: 2px solid #08090D;
-    box-shadow: 0 0 12px rgba(0, 229, 255, 0.7);
+    background: linear-gradient(135deg, #e8c468, #d4af37);
+    border: 2px solid #0C0A09;
+    box-shadow: 0 0 12px rgba(212, 175, 55, 0.7);
     cursor: pointer;
   }
 
@@ -284,13 +279,13 @@
     animation: scan-particle 1.4s ease-out forwards;
   }
 
-  /* Scroll progress bar shimmer */
+  /* Scroll progress bar shimmer — Gold Only */
   @keyframes progress-shimmer {
     0% { background-position: -200% 0; }
     100% { background-position: 200% 0; }
   }
   .progress-bar-fill {
-    background: linear-gradient(90deg, #00e5ff, #e8c468, #00e5ff);
+    background: linear-gradient(90deg, #d4af37, #e8c468, #b45309, #d4af37);
     background-size: 200% 100%;
     animation: progress-shimmer 2.5s linear infinite;
   }
@@ -305,17 +300,8 @@
     opacity: 0;
     animation: kinetic-char 0.5s cubic-bezier(0.22, 1, 0.36, 1) forwards;
   }
-
-  /* Parallax refraction on glass panels */
-  .glass-parallax {
-    background-attachment: local;
-    transition: background-position 0.3s ease-out;
-  }
 }
 
-/* ============================================================
- * Reduced motion — keep state changes, drop physics.
- * ============================================================ */
 @media (prefers-reduced-motion: reduce) {
   *,
   *::before,
@@ -324,18 +310,5 @@
     animation-iteration-count: 1 !important;
     transition-duration: 0.01ms !important;
     scroll-behavior: auto !important;
-  }
-  .stagger > * {
-    opacity: 1 !important;
-    animation: none !important;
-  }
-  .kinetic-char {
-    opacity: 1 !important;
-    filter: none !important;
-    transform: none !important;
-    animation: none !important;
-  }
-  .specular::before {
-    display: none !important;
   }
 }

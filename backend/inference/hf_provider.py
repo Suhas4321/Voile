@@ -21,16 +21,20 @@ Features:
 - Smart retry: quota-exceeded errors fail fast (no wasteful retries)
 """
 
+import logging
 import re
 import shutil
 import time
 import uuid
+from concurrent.futures import ThreadPoolExecutor, TimeoutError as FuturesTimeout
 from pathlib import Path
 
 from gradio_client import Client, handle_file
 
 from config import HF_SPACE_ID, HF_TOKEN, UPLOAD_DIR
 from inference.base import VTONProvider, VTONProviderError
+
+logger = logging.getLogger(__name__)
 
 
 def _is_quota_error(error: Exception) -> bool:
@@ -105,6 +109,9 @@ class HFSpaceDevProvider(VTONProvider):
 
                 if attempt <= self.max_retries:
                     backoff = 2 ** attempt  # 2s, 4s
+                    logger.warning(
+                        f"Attempt {attempt} failed: {e}. Retrying in {backoff}s..."
+                    )
                     time.sleep(backoff)
                     continue
                 break
@@ -117,7 +124,7 @@ class HFSpaceDevProvider(VTONProvider):
 
     def _call_space(self, person_path: str, garment_path: str) -> str:
         """
-        Single attempt to call the Gradio Space.
+        Single attempt to call the Gradio Space with a hard timeout.
 
         The IDM-VTON Space API typically expects:
           - dict(background=<person_img>, layers=[], composite=None)  (ImageEditor)
@@ -130,24 +137,41 @@ class HFSpaceDevProvider(VTONProvider):
         """
         client = None
         try:
+            logger.info(
+                f"Connecting to HF Space '{self.space_id}' "
+                f"(token={'YES' if self.hf_token else 'NO'}, timeout={self.timeout}s)"
+            )
             client = Client(self.space_id, hf_token=self.hf_token)
 
-            # IDM-VTON Gradio interface: the first argument is an ImageEditor dict,
-            # second is the garment image. Remaining args are sensible defaults.
-            result = client.predict(
-                dict(
-                    background=handle_file(person_path),
-                    layers=[],
-                    composite=None,
-                ),
-                handle_file(garment_path),
-                "A person wearing the garment",  # text description
-                True,   # auto-generate mask
-                True,   # auto-crop & resize
-                30,     # denoising steps
-                42,     # seed
-                api_name="/tryon",
-            )
+            # Run predict() in a thread with a hard timeout so a hung Space
+            # doesn't block the worker process indefinitely.
+            def _predict():
+                return client.predict(
+                    dict(
+                        background=handle_file(person_path),
+                        layers=[],
+                        composite=None,
+                    ),
+                    handle_file(garment_path),
+                    "A person wearing the garment",  # text description
+                    True,   # auto-generate mask
+                    True,   # auto-crop & resize
+                    30,     # denoising steps
+                    42,     # seed
+                    api_name="/tryon",
+                )
+
+            with ThreadPoolExecutor(max_workers=1) as executor:
+                future = executor.submit(_predict)
+                try:
+                    result = future.result(timeout=self.timeout)
+                except FuturesTimeout:
+                    raise VTONProviderError(
+                        f"HF Space '{self.space_id}' did not respond within "
+                        f"{self.timeout}s. The Space may be cold-starting or "
+                        f"under heavy load. Please try again.",
+                        retriable=True,
+                    )
 
             # The result is typically a list or tuple; the output image path is
             # the first element (or the only element).

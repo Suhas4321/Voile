@@ -9,6 +9,7 @@ import { HeroHeader } from '@/components/HeroHeader';
 import { LightingDrawer } from '@/components/LightingDrawer';
 import { SavedFitsDrawer } from '@/components/SavedFitsDrawer';
 import { AuraStylist } from '@/components/AuraStylist';
+import { FitMirrorsLogo } from '@/components/FitMirrorsLogo';
 import { StudioWorkspace, type StepId } from '@/components/studio/StudioWorkspace';
 import { Step1ModelStudio } from '@/components/studio/Step1ModelStudio';
 import { Step2WardrobeCloset } from '@/components/studio/Step2WardrobeCloset';
@@ -114,11 +115,6 @@ function App() {
     }
   }
 
-  function launchStudio() {
-    setActiveNav('studio');
-    document.getElementById('studio')?.scrollIntoView({ behavior: 'smooth', block: 'start' });
-  }
-
   function startFitting() {
     setIsRegeneration(false);
     setActiveStep(3);
@@ -180,7 +176,6 @@ function App() {
         savedCount={savedFits.length}
         onOpenLighting={() => setLightingOpen(true)}
         onOpenSaved={() => setSavedOpen(true)}
-        onLaunch={launchStudio}
         activeNav={activeNav}
         onNavChange={handleNavChange}
         ambientToggle={<AmbientAudioToggle />}
@@ -258,12 +253,12 @@ function App() {
         <Reveal>
           <GlassPanel className="flex flex-col items-center justify-between gap-4 px-6 py-6 sm:flex-row">
             <div className="flex items-center gap-2">
-              <span className="font-serif text-lg font-bold tracking-[0.2em] text-white">VOILE</span>
+              <FitMirrorsLogo size="sm" />
             </div>
             <p className="text-center text-xs text-silver-muted">
-              Generative AI virtual fitting — millimeter precision try-on for modern wardrobes.
+              FitMirrors — Millimeter-precision photorealistic AI try-on for modern wardrobes.
             </p>
-            <p className="text-xs text-silver-muted/60">© 2026 VOILE</p>
+            <p className="text-xs text-silver-muted/60">© 2026 FitMirrors AI</p>
           </GlassPanel>
         </Reveal>
       </footer>
@@ -317,10 +312,10 @@ function HowItWorks() {
       <Reveal>
         <div className="mb-10 text-center">
           <SectionLabel>Simple & Instant</SectionLabel>
-          <h2 className="mt-2 font-serif text-3xl font-bold uppercase tracking-wide-luxe text-white sm:text-4xl">
-            How It <span className="text-gradient-cyan">Works</span>
+          <h2 className="mt-2 font-serif text-3xl font-bold uppercase tracking-wide-luxe text-stone-100 sm:text-4xl">
+            How It <span className="text-gold-accent">Works</span>
           </h2>
-          <p className="mx-auto mt-3 max-w-xl text-sm text-silver-muted">
+          <p className="mx-auto mt-3 max-w-xl text-sm text-stone-400">
             Three easy steps to experience photorealistic virtual try-on from any device.
           </p>
         </div>
@@ -330,10 +325,10 @@ function HowItWorks() {
         {THREE_STEPS.map((step, i) => (
           <Reveal key={step.num} delay={i * 0.1}>
             <TiltCard maxDeg={6}>
-              <GlassPanel hover shimmer trace className="relative flex h-full flex-col p-6">
-                <span className="font-serif text-4xl font-bold text-cyan-aura/30 mb-4">{step.num}</span>
-                <h3 className="text-base font-bold uppercase tracking-wide-luxe text-white">{step.title}</h3>
-                <p className="mt-2 text-xs leading-relaxed text-silver-muted">{step.text}</p>
+              <GlassPanel hover shimmer trace className="relative flex h-full flex-col p-6 border-stone-800 bg-stone-900/80">
+                <span className="font-serif text-4xl font-bold text-gold-accent/40 mb-4">{step.num}</span>
+                <h3 className="text-base font-bold uppercase tracking-wide-luxe text-stone-100">{step.title}</h3>
+                <p className="mt-2 text-xs leading-relaxed text-stone-400">{step.text}</p>
               </GlassPanel>
             </TiltCard>
           </Reveal>

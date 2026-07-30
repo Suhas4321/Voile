@@ -45,9 +45,9 @@ export function ParticleField({ preset, density = 60 }: ParticleFieldProps) {
     let particles: P[] = [];
 
     const ACCENTS: Record<LightingPreset, string[]> = {
-      neutral: ['#00E5FF', '#E8C468', '#8B3FE0'],
-      golden: ['#E8C468', '#F59E0B', '#FFB478'],
-      cyberpunk: ['#00E5FF', '#FF00AA', '#8B3FE0'],
+      neutral: ['#D4AF37', '#E8C468', '#B45309'],
+      golden: ['#E8C468', '#F59E0B', '#D4AF37'],
+      cyberpunk: ['#E8C468', '#D4AF37', '#F59E0B'],
     };
 
     function resize() {

@@ -1,7 +1,7 @@
 """
-VOILE Backend — FastAPI Application
+FitMirrors Backend — FastAPI Application
 
-Lightweight backend for the VOILE AI Virtual Try-On Studio.
+Lightweight backend for the FitMirrors AI Virtual Try-On Studio.
 Designed for 8 GB RAM Ubuntu, $0 cost, all heavy inference offloaded
 to external providers via the adapter pattern.
 
@@ -35,11 +35,11 @@ logging.basicConfig(
 )
 logging.getLogger("httpx").setLevel(logging.WARNING)
 logging.getLogger("httpcore").setLevel(logging.WARNING)
-logger = logging.getLogger("voile")
+logger = logging.getLogger("fitmirrors")
 
 # ── App ─────────────────────────────────────────────────────
 app = FastAPI(
-    title="VOILE AI Virtual Try-On API",
+    title="FitMirrors AI Virtual Try-On API",
     version="0.1.0",
     docs_url="/docs",
     redoc_url="/redoc",

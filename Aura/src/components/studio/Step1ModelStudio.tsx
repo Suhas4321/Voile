@@ -74,10 +74,10 @@ export function Step1ModelStudio({
       <div className="mb-6 flex flex-col gap-4 sm:flex-row sm:items-end sm:justify-between">
         <div>
           <SectionLabel>Step 01 · Capture</SectionLabel>
-          <h2 className="mt-2 font-serif text-2xl font-bold uppercase tracking-wide-luxe text-white sm:text-3xl">
+          <h2 className="mt-2 font-serif text-2xl font-bold uppercase tracking-wide-luxe text-stone-100 sm:text-3xl">
             Model Studio
           </h2>
-          <p className="mt-1.5 max-w-xl text-sm leading-relaxed text-silver-muted">
+          <p className="mt-1.5 max-w-xl text-sm leading-relaxed text-stone-400">
             Upload one clear, full-body photo of yourself, standing straight against a plain background. This is what your garment try-on will be based on.
           </p>
         </div>
@@ -93,7 +93,7 @@ export function Step1ModelStudio({
         {/* Left Column: Primary Single Upload Card (7 Cols) */}
         <div className="lg:col-span-7">
           <TiltCard maxDeg={4} scale={1.01}>
-            <GlassPanel hover trace className="group relative flex flex-col items-center justify-center overflow-hidden p-4 sm:p-5">
+            <GlassPanel hover trace className="group relative flex flex-col items-center justify-center overflow-hidden p-4 sm:p-5 border-stone-800 bg-stone-900/80">
               {/* Hidden File Input */}
               <input
                 ref={fileRef}
@@ -119,20 +119,20 @@ export function Step1ModelStudio({
                 style={{
                   aspectRatio: aspectRatio ? `${aspectRatio}` : '3/4',
                 }}
-                className={`relative flex min-h-[360px] max-h-[55vh] sm:max-h-[70vh] w-full max-w-[500px] mx-auto cursor-pointer flex-col items-center justify-center overflow-hidden rounded-2xl transition-all duration-500 ${
+                className={`relative flex min-h-[360px] max-h-[55vh] sm:max-h-[70vh] w-full max-w-[500px] mx-auto cursor-pointer flex-col items-center justify-center overflow-hidden rounded-2xl transition-all duration-500 bg-stone-950 ${
                   dragOver
-                    ? 'border-2 border-dashed border-cyan-aura bg-cyan-aura/[0.08] shadow-[0_0_30px_-5px_rgba(0,229,255,0.4)]'
+                    ? 'border-2 border-dashed border-gold-accent bg-gold-accent/10 shadow-[0_0_30px_-5px_rgba(212,175,55,0.4)]'
                     : hasImage
-                      ? 'border border-cyan-aura/30 bg-obsidian'
-                      : 'border-2 border-dashed border-white/20 bg-white/[0.02] hover:border-cyan-aura/60 hover:bg-cyan-aura/[0.03]'
+                      ? 'border border-gold-accent/30 bg-stone-950'
+                      : 'border-2 border-dashed border-stone-700 bg-stone-900/40 hover:border-gold-accent/60 hover:bg-stone-900/60'
                 }`}
               >
                 {hasImage ? (
                   <>
                     {/* Skeleton while natural aspect ratio calculates */}
                     {imgLoading && (
-                      <div className="absolute inset-0 bg-obsidian-surface animate-pulse flex items-center justify-center">
-                        <Sparkles className="h-6 w-6 text-cyan-aura animate-spin-slow" />
+                      <div className="absolute inset-0 bg-stone-900 animate-pulse flex items-center justify-center">
+                        <Sparkles className="h-6 w-6 text-gold-accent animate-spin-slow" />
                       </div>
                     )}
 
@@ -149,16 +149,16 @@ export function Step1ModelStudio({
                     <SkeletonKeypoints className="opacity-0 transition-opacity duration-500 group-hover:opacity-100" />
 
                     {/* Pose Detected Badge */}
-                    <div className="absolute left-3 top-3 flex items-center gap-1.5 rounded-full bg-obsidian/80 px-3 py-1.5 backdrop-blur-md border border-emerald-500/30 z-10">
-                      <CheckCircle2 className="h-3.5 w-3.5 text-emerald-400 animate-glow-pulse" />
-                      <span className="text-[10px] font-semibold uppercase tracking-wide-luxe text-emerald-300">
+                    <div className="absolute left-3 top-3 flex items-center gap-1.5 rounded-full bg-stone-950/80 px-3 py-1.5 backdrop-blur-md border border-gold-accent/40 z-10">
+                      <CheckCircle2 className="h-3.5 w-3.5 text-gold-accent animate-glow-pulse" />
+                      <span className="text-[10px] font-semibold uppercase tracking-wide-luxe text-gold-accent">
                         {SAMPLE_MODEL_NOTE}
                       </span>
                     </div>
 
                     {/* Hover Prompt Overlay */}
-                    <div className="absolute inset-0 z-20 flex items-center justify-center bg-obsidian/60 opacity-0 backdrop-blur-xs transition-opacity duration-300 group-hover:opacity-100">
-                      <div className="flex items-center gap-2 rounded-full border border-cyan-aura/50 bg-cyan-aura/15 px-4 py-2 text-xs font-semibold uppercase tracking-wide-luxe text-cyan-aura backdrop-blur-md">
+                    <div className="absolute inset-0 z-20 flex items-center justify-center bg-stone-950/60 opacity-0 backdrop-blur-xs transition-opacity duration-300 group-hover:opacity-100">
+                      <div className="flex items-center gap-2 rounded-full border border-gold-accent/60 bg-gold-accent/20 px-4 py-2 text-xs font-semibold uppercase tracking-wide-luxe text-gold-accent backdrop-blur-md">
                         <Upload className="h-4 w-4" />
                         Click to Change Photo
                       </div>
@@ -166,19 +166,19 @@ export function Step1ModelStudio({
                   </>
                 ) : (
                   <div className="flex flex-col items-center gap-3 px-6 text-center">
-                    <div className="flex h-14 w-14 items-center justify-center rounded-full border border-cyan-aura/30 bg-cyan-aura/10 shadow-[0_0_20px_-3px_rgba(0,229,255,0.3)]">
-                      <Upload className="h-6 w-6 text-cyan-aura" />
+                    <div className="flex h-14 w-14 items-center justify-center rounded-full border border-gold-accent/40 bg-gold-accent/10 shadow-[0_0_20px_-3px_rgba(212,175,55,0.3)]">
+                      <Upload className="h-6 w-6 text-gold-accent" />
                     </div>
                     <div>
-                      <div className="text-sm font-semibold uppercase tracking-wide-luxe text-white">
+                      <div className="text-sm font-semibold uppercase tracking-wide-luxe text-stone-100">
                         Click or drag to upload your photo
                       </div>
-                      <div className="mt-1 text-xs text-silver-muted">
+                      <div className="mt-1 text-xs text-stone-400">
                         High-resolution JPG, PNG, or WebP (up to 10MB)
                       </div>
                     </div>
-                    <div className="mt-2 inline-flex items-center gap-1.5 rounded-full border border-white/10 bg-white/[0.04] px-3 py-1 text-[10px] uppercase tracking-wide-luxe text-silver-muted">
-                      <Camera className="h-3 w-3 text-cyan-aura" />
+                    <div className="mt-2 inline-flex items-center gap-1.5 rounded-full border border-stone-700 bg-stone-800/50 px-3 py-1 text-[10px] uppercase tracking-wide-luxe text-stone-400">
+                      <Camera className="h-3 w-3 text-gold-accent" />
                       Single Full-Body Photo
                     </div>
                   </div>
@@ -187,14 +187,14 @@ export function Step1ModelStudio({
 
               {/* Card Footer Status */}
               <div className="mt-3 flex items-center justify-between px-1">
-                <span className="flex items-center gap-2 text-xs font-medium uppercase tracking-wide-luxe text-silver-muted">
-                  <UserCheck className="h-3.5 w-3.5 text-cyan-aura" />
+                <span className="flex items-center gap-2 text-xs font-medium uppercase tracking-wide-luxe text-stone-400">
+                  <UserCheck className="h-3.5 w-3.5 text-gold-accent" />
                   Full-Body Photo
                 </span>
-                <span className="flex items-center gap-1.5 text-[11px] font-medium text-silver-muted">
+                <span className="flex items-center gap-1.5 text-[11px] font-medium text-stone-400">
                   <span
                     className={`h-2 w-2 rounded-full ${
-                      hasImage ? 'bg-emerald-400 shadow-[0_0_10px_2px_rgba(52,211,153,0.7)]' : 'bg-white/20'
+                      hasImage ? 'bg-gold-accent shadow-[0_0_10px_2px_rgba(212,175,55,0.7)]' : 'bg-stone-700'
                     }`}
                   />
                   {hasImage ? 'Ready for fitting' : 'Required'}
@@ -207,12 +207,12 @@ export function Step1ModelStudio({
         {/* Right Column: Guidelines & Presets Selection (5 Cols) */}
         <div className="flex flex-col gap-4 lg:col-span-5">
           {/* Preset Models Panel */}
-          <GlassPanel className="p-5">
-            <div className="flex items-center gap-2 text-xs font-semibold uppercase tracking-wide-luxe text-cyan-aura">
+          <GlassPanel className="p-5 border-stone-800 bg-stone-900/80">
+            <div className="flex items-center gap-2 text-xs font-semibold uppercase tracking-wide-luxe text-gold-accent">
               <Sparkles className="h-4 w-4 text-gold-accent" />
               Sample Studio Presets
             </div>
-            <p className="mt-1 text-xs text-silver-muted">
+            <p className="mt-1 text-xs text-stone-400">
               Select one of our verified fashion editorial models to test instant fitting:
             </p>
 
@@ -225,27 +225,27 @@ export function Step1ModelStudio({
                     onClick={() => applyPreset(p.id)}
                     className={`flex items-center justify-between rounded-xl border p-3 text-left text-xs transition-all duration-300 ${
                       isSelected
-                        ? 'border-cyan-aura/60 bg-cyan-aura/10 text-white shadow-[0_0_16px_-4px_rgba(0,229,255,0.5)]'
-                        : 'border-white/10 bg-white/[0.03] text-silver-muted hover:border-white/25 hover:bg-white/[0.06] hover:text-white'
+                        ? 'border-gold-accent/60 bg-gold-accent/15 text-stone-100 shadow-[0_0_16px_-4px_rgba(212,175,55,0.4)]'
+                        : 'border-stone-800 bg-stone-900/60 text-stone-400 hover:border-stone-700 hover:bg-stone-800/50 hover:text-stone-100'
                     }`}
                   >
                     <div className="flex items-center gap-3">
                       <img
                         src={p.angles.front}
                         alt={p.name}
-                        className="h-10 w-10 rounded-lg object-cover border border-white/10"
+                        className="h-10 w-10 rounded-lg object-cover object-top border border-stone-700"
                       />
                       <div>
-                        <div className="font-semibold uppercase tracking-wide-luxe text-white">
+                        <div className="font-semibold uppercase tracking-wide-luxe text-stone-100">
                           {p.name}
                         </div>
-                        <div className="text-[10px] text-silver-muted">
+                        <div className="text-[10px] text-stone-400">
                           Full-body standing studio preset
                         </div>
                       </div>
                     </div>
                     {isSelected && (
-                      <CheckCircle2 className="h-4 w-4 text-cyan-aura" />
+                      <CheckCircle2 className="h-4 w-4 text-gold-accent" />
                     )}
                   </button>
                 );
@@ -254,24 +254,24 @@ export function Step1ModelStudio({
           </GlassPanel>
 
           {/* Photo Requirements Guidelines Panel */}
-          <GlassPanel className="p-5">
-            <div className="flex items-center gap-2 text-xs font-semibold uppercase tracking-wide-luxe text-white">
-              <ShieldCheck className="h-4 w-4 text-emerald-400" />
+          <GlassPanel className="p-5 border-stone-800 bg-stone-900/80">
+            <div className="flex items-center gap-2 text-xs font-semibold uppercase tracking-wide-luxe text-stone-200">
+              <ShieldCheck className="h-4 w-4 text-gold-accent" />
               Photo Guidelines for Best AI Drape
             </div>
             
-            <ul className="mt-3 space-y-2.5 text-xs text-silver-muted">
+            <ul className="mt-3 space-y-2.5 text-xs text-stone-400">
               <li className="flex items-start gap-2">
-                <span className="mt-0.5 h-1.5 w-1.5 rounded-full bg-cyan-aura" />
-                <span><strong>Standing upright facing front</strong> — natural relaxed posture with legs visible down to feet or mid-thigh.</span>
+                <span className="mt-1 h-1.5 w-1.5 shrink-0 rounded-full bg-gold-accent" />
+                <span><strong className="text-stone-200">Standing upright facing front</strong> — natural relaxed posture with legs visible down to feet or mid-thigh.</span>
               </li>
               <li className="flex items-start gap-2">
-                <span className="mt-0.5 h-1.5 w-1.5 rounded-full bg-cyan-aura" />
-                <span><strong>Plain background</strong> — simple wall or studio backdrop for precise silhouette extraction.</span>
+                <span className="mt-1 h-1.5 w-1.5 shrink-0 rounded-full bg-gold-accent" />
+                <span><strong className="text-stone-200">Plain background</strong> — simple wall or studio backdrop for precise silhouette extraction.</span>
               </li>
               <li className="flex items-start gap-2">
-                <span className="mt-0.5 h-1.5 w-1.5 rounded-full bg-cyan-aura" />
-                <span><strong>Clear lighting</strong> — unobstructed torso and shoulders for accurate fabric wrapping.</span>
+                <span className="mt-1 h-1.5 w-1.5 shrink-0 rounded-full bg-gold-accent" />
+                <span><strong className="text-stone-200">Clear lighting</strong> — unobstructed torso and shoulders for accurate fabric wrapping.</span>
               </li>
             </ul>
           </GlassPanel>
@@ -279,13 +279,13 @@ export function Step1ModelStudio({
       </div>
 
       {/* Continue Action Footer */}
-      <div className="mt-8 flex items-center justify-between border-t border-white/10 pt-5">
-        <span className="text-xs text-silver-muted">
+      <div className="mt-8 flex items-center justify-between border-t border-stone-800 pt-5">
+        <span className="text-xs text-stone-400">
           {hasImage
             ? 'Full-body photo ready. Proceed to select a garment from the wardrobe.'
             : 'Please upload a full-body photo or select a sample preset to continue.'}
         </span>
-        <GlowButton variant="cyan" onClick={onContinue} disabled={!hasImage}>
+        <GlowButton variant="gold" onClick={onContinue} disabled={!hasImage}>
           Continue to Wardrobe
           <span className="text-base">→</span>
         </GlowButton>

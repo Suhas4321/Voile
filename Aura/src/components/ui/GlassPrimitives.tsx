@@ -2,7 +2,7 @@ import { type ReactNode, type CSSProperties } from 'react';
 import { useMagnetic } from '@/lib/motion';
 
 /* ============================================================
- * Shared liquid-glass design primitives for VOILE.
+ * Shared liquid-glass design primitives for FitMirrors.
  * Chrome-only glass — never placed behind product imagery.
  * ============================================================ */
 
@@ -53,7 +53,7 @@ interface GlowButtonProps {
 export function GlowButton({
   children,
   onClick,
-  variant = 'cyan',
+  variant = 'gold',
   className = '',
   disabled = false,
   type = 'button',
@@ -62,13 +62,13 @@ export function GlowButton({
 }: GlowButtonProps) {
   const variants: Record<string, string> = {
     cyan:
-      'text-obsidian bg-gradient-to-r from-cyan-aura via-cyan-300 to-cyan-aura shadow-[0_0_24px_-4px_rgba(0,229,255,0.6)] hover:shadow-[0_0_32px_-2px_rgba(0,229,255,0.85)]',
+      'text-stone-950 bg-gradient-to-r from-gold-accent via-amber-300 to-gold-aura shadow-[0_0_24px_-4px_rgba(212,175,55,0.6)] hover:shadow-[0_0_32px_-2px_rgba(232,196,104,0.85)]',
     gold:
-      'text-obsidian bg-gradient-to-r from-gold-aura via-amber-200 to-gold-aura shadow-[0_0_24px_-4px_rgba(232,196,104,0.6)] hover:shadow-[0_0_32px_-2px_rgba(232,196,104,0.85)]',
+      'text-stone-950 bg-gradient-to-r from-gold-accent via-amber-200 to-gold-aura shadow-[0_0_24px_-4px_rgba(232,196,104,0.6)] hover:shadow-[0_0_32px_-2px_rgba(232,196,104,0.85)]',
     ghost:
-      'text-white bg-white/[0.06] border border-white/[0.14] hover:bg-white/[0.12] hover:border-white/[0.28]',
+      'text-stone-100 bg-white/[0.06] border border-white/[0.14] hover:bg-white/[0.12] hover:border-gold-accent/40',
     outline:
-      'text-white bg-white/[0.02] border border-cyan-aura/40 hover:border-cyan-aura/80 shadow-[inset_0_0_18px_-8px_rgba(0,229,255,0.5)] hover:shadow-[0_0_22px_-6px_rgba(0,229,255,0.7),inset_0_0_22px_-6px_rgba(0,229,255,0.7)]',
+      'text-stone-100 bg-stone-900/50 border border-gold-accent/40 hover:border-gold-accent/80 shadow-[inset_0_0_18px_-8px_rgba(212,175,55,0.4)] hover:shadow-[0_0_22px_-6px_rgba(232,196,104,0.6)]',
   };
 
   const mag = useMagnetic<HTMLButtonElement>(disabled ? 0 : 0.3);
@@ -83,7 +83,7 @@ export function GlowButton({
       onPointerMove={magnetic ? mag.onPointerMove : undefined}
       onPointerLeave={magnetic ? mag.onPointerLeave : undefined}
       className={`btn-glow shimmer-sweep glass-trace px-5 py-2.5 text-sm font-semibold tracking-wide-luxe uppercase ${
-        variants[variant]
+        variants[variant] || variants.gold
       } ${disabled ? 'opacity-40 cursor-not-allowed hover:scale-100 active:scale-100' : 'cursor-pointer'} ${className}`}
     >
       <span className="relative z-10 flex items-center justify-center gap-2">{children}</span>
@@ -117,8 +117,8 @@ export function ProgressRing({
       <svg width={size} height={size} className="-rotate-90">
         <defs>
           <linearGradient id="ringGrad" x1="0%" y1="0%" x2="100%" y2="100%">
-            <stop offset="0%" stopColor="#00E5FF" />
-            <stop offset="100%" stopColor="#E8C468" />
+            <stop offset="0%" stopColor="#E8C468" />
+            <stop offset="100%" stopColor="#D4AF37" />
           </linearGradient>
         </defs>
         <circle
@@ -141,7 +141,7 @@ export function ProgressRing({
           strokeDashoffset={offset}
           style={{
             transition: 'stroke-dashoffset 1.2s cubic-bezier(0.22,1,0.36,1)',
-            filter: 'drop-shadow(0 0 6px rgba(0,229,255,0.55))',
+            filter: 'drop-shadow(0 0 6px rgba(212,175,55,0.55))',
           }}
         />
       </svg>
@@ -163,7 +163,7 @@ interface SectionLabelProps {
 
 export function SectionLabel({ children, className = '' }: SectionLabelProps) {
   return (
-    <span className={`text-[11px] uppercase tracking-luxe text-cyan-aura/80 ${className}`}>
+    <span className={`text-[11px] uppercase tracking-luxe text-gold-accent ${className}`}>
       {children}
     </span>
   );

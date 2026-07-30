@@ -7,6 +7,7 @@ import { STYLIST_SUGGESTIONS, GARMENTS } from '@/lib/data';
  * AuraStylist — floating bottom-right AI assistant widget.
  * Collapsible trigger opens a mini glass chat with mock
  * suggested prompts and styled responses + clothing chips.
+ * Warm Gold Luxury aesthetic.
  * ============================================================ */
 
 interface Message {
@@ -14,13 +15,6 @@ interface Message {
   text: string;
   chips?: string[];
 }
-
-const AI_REPLIES: Record<string, { text: string; chips?: string[] }> = {
-  default: {
-    text: 'Based on your current selection, I would balance proportions with structured tailoring. Here are curated pairings that harmonize fabric weight and drape:',
-    chips: ['Technical Wool Bomber', 'Architectural Cutline Tee', 'Gold-Plated Articulated Cuff'],
-  },
-};
 
 function replyFor(prompt: string): Message {
   const lower = prompt.toLowerCase();
@@ -53,7 +47,7 @@ export function AuraStylist() {
   const [messages, setMessages] = useState<Message[]>([
     {
       role: 'ai',
-      text: 'I am VOILE Stylist. Ask me about pairings, layering, or colour harmony for your current look.',
+      text: 'I am FitMirrors Stylist. Ask me about pairings, layering, or colour harmony for your current look.',
     },
   ]);
   const [input, setInput] = useState('');
@@ -72,25 +66,25 @@ export function AuraStylist() {
       {open && (
         <GlassPanel
           shimmer
-          className="flex w-[min(92vw,360px)] flex-col overflow-hidden animate-scale-in"
+          className="flex w-[min(92vw,360px)] flex-col overflow-hidden animate-scale-in border-stone-800 bg-stone-900/90"
         >
           {/* Header */}
-          <div className="flex items-center justify-between border-b border-white/10 px-4 py-3">
+          <div className="flex items-center justify-between border-b border-stone-800 px-4 py-3">
             <div className="flex items-center gap-2">
-              <span className="flex h-8 w-8 items-center justify-center rounded-full bg-gradient-to-br from-cyan-aura to-violet-aura">
-                <Wand2 className="h-4 w-4 text-obsidian" />
+              <span className="flex h-8 w-8 items-center justify-center rounded-full bg-gradient-to-br from-gold-accent to-amber-500">
+                <Wand2 className="h-4 w-4 text-stone-950" />
               </span>
               <div>
-                <div className="text-sm font-bold text-white">VOILE Stylist</div>
-                <div className="flex items-center gap-1 text-[10px] text-cyan-aura">
-                  <span className="h-1.5 w-1.5 rounded-full bg-cyan-aura animate-glow-pulse" />
+                <div className="text-sm font-bold text-stone-100">FitMirrors Stylist</div>
+                <div className="flex items-center gap-1 text-[10px] text-gold-accent">
+                  <span className="h-1.5 w-1.5 rounded-full bg-gold-accent animate-glow-pulse" />
                   Online
                 </div>
               </div>
             </div>
             <button
               onClick={() => setOpen(false)}
-              className="flex h-7 w-7 items-center justify-center rounded-full text-silver-muted transition-colors hover:text-white"
+              className="flex h-7 w-7 items-center justify-center rounded-full text-stone-400 transition-colors hover:text-stone-100"
             >
               <X className="h-4 w-4" />
             </button>
@@ -106,8 +100,8 @@ export function AuraStylist() {
                 <div
                   className={`max-w-[85%] rounded-2xl px-3.5 py-2.5 text-xs leading-relaxed ${
                     m.role === 'user'
-                      ? 'bg-cyan-aura/15 text-white'
-                      : 'bg-white/[0.05] text-silver-muted'
+                      ? 'bg-gold-accent/20 text-stone-100 border border-gold-accent/30'
+                      : 'bg-stone-800/60 text-stone-300 border border-stone-800'
                   }`}
                 >
                   {m.text}
@@ -118,11 +112,11 @@ export function AuraStylist() {
                         return (
                           <span
                             key={c}
-                            className="flex items-center gap-1 rounded-full border border-cyan-aura/30 bg-cyan-aura/[0.06] px-2 py-1 text-[10px] font-medium text-cyan-aura"
+                            className="flex items-center gap-1 rounded-full border border-gold-accent/40 bg-gold-accent/10 px-2 py-1 text-[10px] font-medium text-gold-accent"
                           >
                             <Sparkles className="h-2.5 w-2.5" />
                             {c}
-                            {g && <span className="text-silver-muted/60">· {g.price}</span>}
+                            {g && <span className="text-stone-400 font-normal">· {g.price}</span>}
                           </span>
                         );
                       })}
@@ -140,7 +134,7 @@ export function AuraStylist() {
                 <button
                   key={s}
                   onClick={() => send(s)}
-                  className="rounded-full border border-white/10 bg-white/[0.03] px-2.5 py-1 text-[10px] text-silver-muted transition-all hover:border-cyan-aura/40 hover:text-cyan-aura"
+                  className="rounded-full border border-stone-800 bg-stone-950/60 px-2.5 py-1 text-[10px] text-stone-400 transition-all hover:border-gold-accent/40 hover:text-gold-accent cursor-pointer"
                 >
                   {s}
                 </button>
@@ -149,19 +143,19 @@ export function AuraStylist() {
           )}
 
           {/* Input */}
-          <div className="flex items-center gap-2 border-t border-white/10 p-3">
+          <div className="flex items-center gap-2 border-t border-stone-800 p-3">
             <input
               value={input}
               onChange={(e) => setInput(e.target.value)}
               onKeyDown={(e) => e.key === 'Enter' && send(input)}
-              placeholder="Ask VOILE Stylist…"
-              className="flex-1 bg-transparent text-xs text-white placeholder:text-silver-muted/60 focus:outline-none"
+              placeholder="Ask FitMirrors Stylist…"
+              className="flex-1 bg-transparent text-xs text-stone-100 placeholder:text-stone-500 focus:outline-none"
             />
             <button
               onClick={() => send(input)}
-              className="flex h-8 w-8 items-center justify-center rounded-full bg-gradient-to-br from-cyan-aura to-cyan-400 text-obsidian transition-transform hover:scale-110 active:scale-95"
+              className="flex h-8 w-8 items-center justify-center rounded-full bg-gradient-to-br from-gold-accent to-amber-500 text-stone-950 transition-transform hover:scale-110 active:scale-95 cursor-pointer"
             >
-              <Send className="h-3.5 w-3.5" />
+              <Send className="h-3.5 w-3.5 fill-stone-950" />
             </button>
           </div>
         </GlassPanel>
@@ -170,12 +164,12 @@ export function AuraStylist() {
       {/* Trigger */}
       <button
         onClick={() => setOpen((o) => !o)}
-        className="group flex items-center gap-2 rounded-full border border-cyan-aura/40 bg-obsidian/70 px-4 py-3 backdrop-blur-xl shadow-[0_0_28px_-6px_rgba(0,242,254,0.8)] transition-all duration-300 hover:scale-105 active:scale-95"
+        className="group flex items-center gap-2 rounded-full border border-gold-accent/40 bg-stone-950/85 px-4 py-3 backdrop-blur-xl shadow-[0_0_28px_-6px_rgba(212,175,55,0.6)] transition-all duration-300 hover:scale-105 active:scale-95 cursor-pointer"
       >
-        <span className="flex h-7 w-7 items-center justify-center rounded-full bg-gradient-to-br from-cyan-aura to-violet-aura">
-          <Wand2 className="h-4 w-4 text-obsidian" />
+        <span className="flex h-7 w-7 items-center justify-center rounded-full bg-gradient-to-br from-gold-accent to-amber-500">
+          <Wand2 className="h-4 w-4 text-stone-950" />
         </span>
-        <span className="text-xs font-bold uppercase tracking-wide-luxe text-white">VOILE Stylist</span>
+        <span className="text-xs font-bold uppercase tracking-wide-luxe text-stone-100">FitMirrors Stylist</span>
       </button>
     </div>
   );

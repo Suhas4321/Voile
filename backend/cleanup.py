@@ -1,6 +1,6 @@
 #!/usr/bin/env python3
 """
-VOILE File Cleanup Script — zero-RAM, no resident process.
+FitMirrors File Cleanup Script — zero-RAM, no resident process.
 
 Walks the ./uploads directory tree (models/, garments/, results/) and deletes
 files whose modification time is older than 24 hours. Also removes (or marks

@@ -1,7 +1,7 @@
 import { type CSSProperties } from 'react';
 
 /* ============================================================
- * VOILE Design Tokens & Data Specs
+ * FitMirrors Design Tokens & Data Specs
  * Modern 2026 Liquid Glassmorphism & Generative VTON Types
  * ============================================================ */
 
@@ -60,36 +60,43 @@ export type LightingPreset = 'neutral' | 'golden' | 'cyberpunk';
 const U = (id: string, w = 800) =>
   `https://images.unsplash.com/${id}?auto=format&fit=crop&w=${w}&q=85`;
 
-/* Sample Models for 2D VTON */
+/* Portrait full-body framing for model presets (preserves head→legs) */
+const UM = (id: string, w = 640, h = 960) =>
+  `https://images.unsplash.com/${id}?auto=format&fit=crop&w=${w}&h=${h}&q=85`;
+
+/* Sample Models for 2D VTON — full-body standing, plain/simple backgrounds */
 export const MODEL_PRESETS: ModelPreset[] = [
   {
     id: 'preset-aria',
     name: 'Aria · Editorial',
     angles: {
-      front: U('photo-1534528741775-53994a69daeb'),
-      side: U('photo-1534528741775-53994a69daeb'),
-      back: U('photo-1534528741775-53994a69daeb'),
-      detail: U('photo-1534528741775-53994a69daeb'),
+      // Studio mustard backdrop, standing front, mid-thigh+ visible
+      front: UM('photo-1572804013309-59a88b7e92f1'),
+      side: UM('photo-1572804013309-59a88b7e92f1'),
+      back: UM('photo-1572804013309-59a88b7e92f1'),
+      detail: UM('photo-1572804013309-59a88b7e92f1'),
     },
   },
   {
     id: 'preset-kai',
     name: 'Kai · Runway',
     angles: {
-      front: U('photo-1507003211169-0a1dd7228f2d'),
-      side: U('photo-1507003211169-0a1dd7228f2d'),
-      back: U('photo-1507003211169-0a1dd7228f2d'),
-      detail: U('photo-1507003211169-0a1dd7228f2d'),
+      // Full-length standing male, head→feet, near-forward neutral pose
+      front: UM('photo-1618886614638-80e3c103d31a'),
+      side: UM('photo-1618886614638-80e3c103d31a'),
+      back: UM('photo-1618886614638-80e3c103d31a'),
+      detail: UM('photo-1618886614638-80e3c103d31a'),
     },
   },
   {
     id: 'preset-noor',
     name: 'Noor · Couture',
     angles: {
-      front: U('photo-1539109136881-3be0616acf4b'),
-      side: U('photo-1539109136881-3be0616acf4b'),
-      back: U('photo-1539109136881-3be0616acf4b'),
-      detail: U('photo-1539109136881-3be0616acf4b'),
+      // Studio plain backdrop, standing front, mid-thigh+ visible (alt pose)
+      front: UM('photo-1572804013427-4d7ca7268217'),
+      side: UM('photo-1572804013427-4d7ca7268217'),
+      back: UM('photo-1572804013427-4d7ca7268217'),
+      detail: UM('photo-1572804013427-4d7ca7268217'),
     },
   },
 ];
@@ -113,7 +120,8 @@ export const GARMENTS: Garment[] = [
     fabric: '14oz Raw Selvedge Denim',
     category: 'Outerwear',
     price: '$640',
-    url: U('photo-1591047139829-d91aecb6caea', 700),
+    // Single denim jacket on hanger, black studio bg
+    url: U('photo-1611312449408-fcece27cdbb7', 700),
   },
   {
     id: 'g2',
@@ -122,7 +130,8 @@ export const GARMENTS: Garment[] = [
     fabric: 'Egyptian Poplin Cotton',
     category: 'Tops',
     price: '$340',
-    url: U('photo-1603252109303-2751441dd157', 700),
+    // Single button-down shirt on hanger (garment-only, no face)
+    url: U('photo-1596755094514-f87e34085b2c', 700),
   },
   {
     id: 'g3',
@@ -131,7 +140,8 @@ export const GARMENTS: Garment[] = [
     fabric: 'Heavyweight Pima Cotton',
     category: 'Tops',
     price: '$180',
-    url: U('photo-1521572267360-ee0c2909d518', 700),
+    // Single black tee on wooden hanger, white bg
+    url: U('photo-1618354691373-d851c5c3a990', 700),
   },
   {
     id: 'g4',
@@ -140,6 +150,7 @@ export const GARMENTS: Garment[] = [
     fabric: 'Merino Wool Blend',
     category: 'Tops',
     price: '$480',
+    // White crewneck flat-lay product photo
     url: U('photo-1620799140408-edc6dcb6d633', 700),
   },
   {
@@ -149,7 +160,8 @@ export const GARMENTS: Garment[] = [
     fabric: '100% Mongolian Cashmere',
     category: 'Outerwear',
     price: '$2,100',
-    url: U('photo-1539533018447-63fcce2678e3', 700),
+    // Camel wrap coat as clear subject (face cropped out)
+    url: U('photo-1539533113208-f6df8cc8b543', 700),
   },
   {
     id: 'g6',
@@ -158,7 +170,8 @@ export const GARMENTS: Garment[] = [
     fabric: '13.5oz Kurabo Denim',
     category: 'Bottoms',
     price: '$420',
-    url: U('photo-1542272604-780c96856592', 700),
+    // Single pair of jeans on wooden hanger
+    url: U('photo-1602293589930-45aad59ba3ab', 700),
   },
   {
     id: 'g7',
@@ -167,6 +180,7 @@ export const GARMENTS: Garment[] = [
     fabric: 'Super 120s Italian Wool',
     category: 'Bottoms',
     price: '$590',
+    // Dark trousers flat-lay, plain background
     url: U('photo-1624378439575-d8705ad7ae80', 700),
   },
   {
@@ -176,6 +190,7 @@ export const GARMENTS: Garment[] = [
     fabric: 'Heavy Cotton Twill',
     category: 'Bottoms',
     price: '$280',
+    // Single shorts flat-lay product photo
     url: U('photo-1591195853828-11db59a44f6b', 700),
   },
   {
@@ -185,7 +200,8 @@ export const GARMENTS: Garment[] = [
     fabric: '100% Organic Linen',
     category: 'Bottoms',
     price: '$310',
-    url: U('photo-1509551388413-e18d0ac5d495', 700),
+    // Drawstring pants as clear garment subject on white bg
+    url: U('photo-1594633312681-425c7b97ccd1', 700),
   },
   {
     id: 'g10',
@@ -194,7 +210,8 @@ export const GARMENTS: Garment[] = [
     fabric: 'Coated Ripstop Nylon',
     category: 'Bottoms',
     price: '$450',
-    url: U('photo-1517445312882-bc9910d016b7', 700),
+    // Cargo trousers as clear visual subject
+    url: U('photo-1552902865-b72c031ac5ea', 700),
   },
 ];
 
@@ -204,22 +221,22 @@ export const SAMPLE_MODEL_NOTE = 'Sample Editorial Model Active';
 
 export const RESULT_IMAGES: Record<string, Record<AngleId, string>> = {
   'preset-aria': {
-    front: U('photo-1534528741775-53994a69daeb', 900),
-    side: U('photo-1517841905240-472988babdf9', 900),
-    back: U('photo-1524504388940-b1c1722653e1', 900),
-    detail: U('photo-1534528741775-53994a69daeb', 900),
+    front: UM('photo-1572804013309-59a88b7e92f1', 720, 1080),
+    side: UM('photo-1572804013309-59a88b7e92f1', 720, 1080),
+    back: UM('photo-1572804013309-59a88b7e92f1', 720, 1080),
+    detail: UM('photo-1572804013309-59a88b7e92f1', 720, 1080),
   },
   'preset-kai': {
-    front: U('photo-1507003211169-0a1dd7228f2d', 900),
-    side: U('photo-1500648767791-00dcc994a43e', 900),
-    back: U('photo-1506794778202-cad84cf45f1d', 900),
-    detail: U('photo-1507003211169-0a1dd7228f2d', 900),
+    front: UM('photo-1618886614638-80e3c103d31a', 720, 1080),
+    side: UM('photo-1618886614638-80e3c103d31a', 720, 1080),
+    back: UM('photo-1618886614638-80e3c103d31a', 720, 1080),
+    detail: UM('photo-1618886614638-80e3c103d31a', 720, 1080),
   },
   'preset-noor': {
-    front: U('photo-1539109136881-3be0616acf4b', 900),
-    side: U('photo-1539109136881-3be0616acf4b', 900),
-    back: U('photo-1539109136881-3be0616acf4b'),
-    detail: U('photo-1539109136881-3be0616acf4b'),
+    front: UM('photo-1572804013427-4d7ca7268217', 720, 1080),
+    side: UM('photo-1572804013427-4d7ca7268217', 720, 1080),
+    back: UM('photo-1572804013427-4d7ca7268217', 720, 1080),
+    detail: UM('photo-1572804013427-4d7ca7268217', 720, 1080),
   },
 };
 
@@ -241,31 +258,31 @@ export const FIT_OVERALL = 98.7;
 
 export const LIGHTING_THEMES: LightingTheme[] = [
   {
-    id: 'neutral',
-    label: 'Studio Neutral',
-    description: 'Sleek dark grey, crisp white rim light',
-    orb1: 'rgba(0, 229, 255, 0.20)',
-    orb2: 'rgba(139, 63, 224, 0.25)',
-    orb3: 'rgba(232, 196, 104, 0.15)',
-    ambient: 'rgba(120, 130, 150, 0.04)',
-  },
-  {
     id: 'golden',
     label: 'Golden Hour Glow',
-    description: 'Warm amber & champagne mesh gradient',
-    orb1: 'rgba(245, 158, 11, 0.22)',
-    orb2: 'rgba(232, 196, 104, 0.30)',
-    orb3: 'rgba(255, 180, 120, 0.18)',
-    ambient: 'rgba(232, 196, 104, 0.06)',
+    description: 'Warm amber & champagne gold luxury aura',
+    orb1: 'rgba(212, 175, 55, 0.22)',
+    orb2: 'rgba(245, 158, 11, 0.25)',
+    orb3: 'rgba(232, 196, 104, 0.20)',
+    ambient: 'rgba(212, 175, 55, 0.06)',
   },
   {
-    id: 'cyberpunk',
-    label: 'Cyberpunk Neon',
-    description: 'Electric cyan & hot magenta neon',
-    orb1: 'rgba(0, 229, 255, 0.28)',
-    orb2: 'rgba(255, 0, 170, 0.26)',
-    orb3: 'rgba(139, 63, 224, 0.20)',
-    ambient: 'rgba(0, 229, 255, 0.05)',
+    id: 'neutral',
+    label: 'Warm Studio Neutral',
+    description: 'Deep bronze shadows & soft warm ivory rim',
+    orb1: 'rgba(180, 83, 9, 0.20)',
+    orb2: 'rgba(212, 175, 55, 0.18)',
+    orb3: 'rgba(120, 53, 15, 0.15)',
+    ambient: 'rgba(180, 83, 9, 0.04)',
+  },
+  {
+    id: 'cyberpunk', // Keep preset id for type compatibility, label as Warm Spotlight
+    label: 'Warm Spotlight',
+    description: 'Focused champagne gold beam & rich charcoal contrast',
+    orb1: 'rgba(232, 196, 104, 0.28)',
+    orb2: 'rgba(217, 119, 6, 0.22)',
+    orb3: 'rgba(180, 83, 9, 0.18)',
+    ambient: 'rgba(232, 196, 104, 0.05)',
   },
 ];
 

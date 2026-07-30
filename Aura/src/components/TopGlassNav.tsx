@@ -1,6 +1,6 @@
 import { useEffect, useState, type ReactNode } from 'react';
-import { Sparkles, Sun, Heart, Zap } from 'lucide-react';
-import { GlowButton } from '@/components/ui/GlassPrimitives';
+import { Sun, Heart } from 'lucide-react';
+import { FitMirrorsLogo } from '@/components/FitMirrorsLogo';
 
 /* ============================================================
  * TopGlassNav — sticky glass header with brand identity,
@@ -11,7 +11,6 @@ interface TopGlassNavProps {
   savedCount: number;
   onOpenLighting: () => void;
   onOpenSaved: () => void;
-  onLaunch: () => void;
   activeNav: string;
   onNavChange: (id: string) => void;
   ambientToggle?: ReactNode;
@@ -30,7 +29,6 @@ export function TopGlassNav({
   savedCount,
   onOpenLighting,
   onOpenSaved,
-  onLaunch,
   activeNav,
   onNavChange,
   ambientToggle,
@@ -59,30 +57,19 @@ export function TopGlassNav({
             scrolled ? 'rounded-2xl' : 'rounded-3xl'
           }`}
         >
-          {/* Brand identity — simplified VOILE luxury wordmark */}
-          <button
-            onClick={() => onNavChange('studio')}
-            className="group relative flex shrink-0 items-center gap-2 py-1"
-            title="VOILE Virtual Studio Home"
-          >
-            <span className="font-serif text-xl font-bold tracking-[0.25em] text-white transition-colors duration-300 group-hover:text-cyan-aura sm:text-2xl">
-              VOILE
-            </span>
-            {/* Signature animated accent underline */}
-            <span className="absolute bottom-0 left-0 h-[2px] w-full origin-left scale-x-75 bg-gradient-to-r from-cyan-aura via-cyan-400 to-gold-aura transition-transform duration-500 group-hover:scale-x-100 shadow-[0_0_10px_rgba(0,229,255,0.7)]" />
-            <Sparkles className="h-4 w-4 text-cyan-aura animate-glow-pulse ml-0.5" />
-          </button>
+          {/* Brand identity — FitMirrors Logo Component */}
+          <FitMirrorsLogo onClick={() => onNavChange('studio')} />
 
           {/* Central nav pill — hidden on small screens */}
-          <div className="hidden items-center rounded-full border border-white/[0.1] bg-white/[0.03] p-1 lg:flex">
+          <div className="hidden items-center rounded-full border border-white/[0.1] bg-stone-900/80 p-1 lg:flex">
             {NAV_ITEMS.map((item) => (
               <button
                 key={item.id}
                 onClick={() => onNavChange(item.id)}
                 className={`rounded-full px-4 py-1.5 text-xs font-medium tracking-wide-luxe uppercase transition-all duration-300 ${
                   activeNav === item.id
-                    ? 'bg-white/[0.1] text-white shadow-[inset_0_0_12px_-4px_rgba(0,242,254,0.6)]'
-                    : 'text-silver-muted hover:text-white'
+                    ? 'bg-stone-800 text-gold-accent shadow-[inset_0_0_12px_-4px_rgba(212,175,55,0.5)] border border-gold-accent/30'
+                    : 'text-stone-400 hover:text-stone-100'
                 }`}
               >
                 {item.label}
@@ -96,7 +83,7 @@ export function TopGlassNav({
             <button
               onClick={onOpenLighting}
               title="Studio Atmosphere"
-              className="glass glass-hover hidden h-9 w-9 items-center justify-center rounded-full text-silver-muted hover:text-cyan-aura sm:flex"
+              className="glass glass-hover hidden h-9 w-9 items-center justify-center rounded-full text-stone-400 hover:text-gold-accent sm:flex"
             >
               <Sun className="h-4 w-4" />
             </button>
@@ -104,17 +91,11 @@ export function TopGlassNav({
             <button
               onClick={onOpenSaved}
               title="Saved Fits"
-              className="glass glass-hover relative flex h-9 items-center gap-1.5 rounded-full px-3 text-silver-muted hover:text-white"
+              className="glass glass-hover relative flex h-9 items-center gap-1.5 rounded-full px-3 text-stone-400 hover:text-white"
             >
               <Heart className="h-4 w-4" />
               <span className="text-xs font-semibold text-white">{savedCount}</span>
             </button>
-
-            <GlowButton variant="outline" onClick={onLaunch} className="hidden sm:flex">
-              <Zap className="h-4 w-4" />
-              <span className="hidden md:inline">Launch Fitting Studio</span>
-              <span className="md:hidden">Launch</span>
-            </GlowButton>
           </div>
         </nav>
       </div>
