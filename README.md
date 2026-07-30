@@ -1,18 +1,18 @@
 <p align="center">
-  <img src="https://img.shields.io/badge/VOILE-AI%20Fashion-black?style=for-the-badge&labelColor=0a0a0a&color=00E5FF" alt="VOILE Badge" />
+  <img src="https://img.shields.io/badge/FIT%20MIRRORS-AI%20Fashion-black?style=for-the-badge&labelColor=0a0a0a&color=D4AF37" alt="FitMirrors Badge" />
   <img src="https://img.shields.io/badge/React-18-61DAFB?style=for-the-badge&logo=react&logoColor=white" alt="React" />
   <img src="https://img.shields.io/badge/FastAPI-0.115-009688?style=for-the-badge&logo=fastapi&logoColor=white" alt="FastAPI" />
   <img src="https://img.shields.io/badge/AI-IDM--VTON-FF6F00?style=for-the-badge&logo=huggingface&logoColor=white" alt="IDM-VTON" />
 </p>
 
-<h1 align="center">VOILE ✦ AI Virtual Try-On Studio</h1>
+<h1 align="center">FIT MIRRORS ✦ AI Virtual Try-On Studio</h1>
 
 <p align="center">
   <em>Haute couture meets generative AI — upload a photo, pick a garment, see yourself wearing it in seconds.</em>
 </p>
 
 <p align="center">
-  <a href="#-what-is-voile">What is VOILE?</a> •
+  <a href="#-what-is-fitmirrors">What is FitMirrors?</a> •
   <a href="#-how-it-works">How It Works</a> •
   <a href="#-features">Features</a> •
   <a href="#-getting-started">Getting Started</a> •
@@ -23,11 +23,11 @@
 
 ---
 
-## 🪞 What is VOILE?
+## 🪞 What is FitMirrors?
 
-**VOILE** is a full-stack AI-powered virtual try-on platform that lets you see how any garment looks on your body — without physically wearing it. Upload a clear photo of yourself (or use a preset model), select a garment from the curated luxury collection or upload your own, and the AI generates a photorealistic image of you wearing that outfit.
+**FitMirrors** is a full-stack AI-powered virtual try-on platform that lets you see how any garment looks on your body — without physically wearing it. Upload a clear photo of yourself (or use a preset model), select a garment from the curated luxury collection or upload your own, and the AI generates a photorealistic image of you wearing that outfit.
 
-This isn't a simple overlay or crop-and-paste. VOILE uses **IDM-VTON** (Image-based Diffusion Model for Virtual Try-On), a state-of-the-art generative AI model hosted on Hugging Face, to understand body shape, garment draping, fabric texture, lighting, and shadows — producing results that look like real photographs.
+This isn't a simple overlay or crop-and-paste. FitMirrors uses **IDM-VTON** (Image-based Diffusion Model for Virtual Try-On), a state-of-the-art generative AI model hosted on Hugging Face, to understand body shape, garment draping, fabric texture, lighting, and shadows — producing results that look like real photographs.
 
 **Who is this for?**
 - 🛍️ **Online shoppers** — see how clothes actually look on you before buying
@@ -39,7 +39,7 @@ This isn't a simple overlay or crop-and-paste. VOILE uses **IDM-VTON** (Image-ba
 
 ## 🔮 How It Works
 
-VOILE follows a **4-step studio workflow** designed to feel like a luxury fitting experience:
+FitMirrors follows a **4-step studio workflow** designed to feel like a luxury fitting experience:
 
 | Step | Name | What Happens |
 |------|------|-------------|
@@ -58,7 +58,7 @@ VOILE follows a **4-step studio workflow** designed to feel like a luxury fittin
 - **3 lighting themes** — Neutral, Golden Hour, and Cyberpunk — with auto-rotation
 - **Tilt-responsive cards** and shimmer-sweep glass panels throughout
 - **Saved Fits drawer** — bookmark and revisit your favorite try-ons
-- **Aura Stylist** — floating AI assistant widget
+- **FitMirrors Stylist** — floating AI assistant widget
 - **Ambient audio toggle** for an immersive studio experience
 - **Scroll progress bar** and smooth section navigation
 - **Fully responsive** — works seamlessly on desktop, tablet, and mobile
@@ -178,7 +178,7 @@ curl http://localhost:8000/api/v1/jobs/a3f8c1d2e4...
 
 ```
 ┌─────────────────────────────────────────────────────┐
-│                   Browser (Aura)                     │
+│                Browser (FitMirrors)                 │
 │  React 18 + TypeScript + Vite + Tailwind CSS         │
 │  Glassmorphism UI · Particle effects · Ambient audio │
 └──────────────────────┬──────────────────────────────┘
@@ -220,7 +220,7 @@ curl http://localhost:8000/api/v1/jobs/a3f8c1d2e4...
 
 ### AI Model
 
-VOILE uses [**IDM-VTON**](https://huggingface.co/spaces/yisol/IDM-VTON) (Image-based Diffusion Model for Virtual Try-On) — a research model that:
+FitMirrors uses [**IDM-VTON**](https://huggingface.co/spaces/yisol/IDM-VTON) (Image-based Diffusion Model for Virtual Try-On) — a research model that:
 
 - Takes a person image + garment flat-lay image as input
 - Generates a new image showing the person wearing the garment
@@ -262,7 +262,7 @@ Voile/
 │           ├── AmbientBackground.tsx  # Dynamic gradient backgrounds
 │           ├── ParticleField.tsx      # Floating particle effects
 │           ├── CursorSparkTrail.tsx   # Cursor trailing sparkles
-│           ├── AuraStylist.tsx        # Floating AI assistant widget
+│           ├── AuraStylist.tsx        # FitMirrors AI assistant widget
 │           ├── ScrollProgressBar.tsx  # Page scroll indicator
 │           ├── AmbientAudioToggle.tsx # Sound toggle control
 │           ├── LightingDrawer.tsx     # Theme/lighting selector
@@ -309,5 +309,5 @@ MIT — free to use, modify, and distribute.
 
 <p align="center">
   <strong>Built with ☕ and generative AI</strong><br>
-  <sub>VOILE © 2026</sub>
+  <sub>FitMirrors © 2026</sub>
 </p>
