@@ -12,6 +12,7 @@
 </p>
 
 <p align="center">
+  <a href="#-demo-video">Demo Video</a> •
   <a href="#-what-is-fitmirrors">What is FitMirrors?</a> •
   <a href="#-how-it-works">How It Works</a> •
   <a href="#-features">Features</a> •
@@ -19,6 +20,15 @@
   <a href="#-api-reference">API</a> •
   <a href="#-tech-details">Tech Details</a> •
   <a href="#-project-structure">Structure</a>
+</p>
+
+---
+
+## 🎬 Demo Video
+
+<p align="center">
+  <!-- 💡 TO ADD YOUR VIDEO ON GITHUB: Edit this README on GitHub, drag & drop your .mp4/.mov video here, and GitHub will insert the video URL automatically -->
+  <em>Demo video coming soon — see FitMirrors virtual fitting studio in action!</em>
 </p>
 
 ---
