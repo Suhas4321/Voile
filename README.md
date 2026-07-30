@@ -27,8 +27,10 @@
 ## 🎬 Demo Video
 
 <p align="center">
-  <!-- 💡 TO ADD YOUR VIDEO ON GITHUB: Edit this README on GitHub, drag & drop your .mp4/.mov video here, and GitHub will insert the video URL automatically -->
-  <em>Demo video coming soon — see FitMirrors virtual fitting studio in action!</em>
+  <
+
+>
+  <em></em>
 </p>
 
 ---
