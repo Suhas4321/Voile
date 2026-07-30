@@ -97,8 +97,8 @@ FitMirrors follows a **4-step studio workflow** designed to feel like a luxury f
 ### 1. Clone the repo
 
 ```bash
-git clone https://github.com/Suhas4321/Voile.git
-cd Voile
+git clone https://github.com/Suhas4321/FitMirrors.git
+cd FitMirrors
 ```
 
 ### 2. Start the Frontend
