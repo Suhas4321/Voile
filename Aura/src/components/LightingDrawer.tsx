@@ -17,6 +17,8 @@ interface LightingDrawerProps {
   onPresetChange: (p: LightingPreset) => void;
   autoRotate: boolean;
   onToggleAutoRotate: () => void;
+  rotateInterval: 3 | 5;
+  onRotateIntervalChange: (sec: 3 | 5) => void;
 }
 
 const SWATCH: Record<LightingPreset, string> = {
@@ -33,6 +35,8 @@ export function LightingDrawer({
   onPresetChange,
   autoRotate,
   onToggleAutoRotate,
+  rotateInterval,
+  onRotateIntervalChange,
 }: LightingDrawerProps) {
   return (
     <>
@@ -67,40 +71,81 @@ export function LightingDrawer({
 
           <p className="mb-4 text-sm text-stone-400">
             Pick the page atmosphere. <strong className="text-stone-200">Black &amp; Gold</strong> is
-            the classic charcoal look. Switch anytime, or auto-rotate every 7 seconds.
+            the classic charcoal look. Switch anytime, or auto-rotate themes seamlessly.
           </p>
 
-          {/* 7-SECOND AUTO-ROTATE TOGGLE CARD */}
-          <div className="mb-5 flex items-center justify-between rounded-2xl border border-stone-800 bg-stone-950/60 p-3.5 backdrop-blur-md">
-            <div className="flex items-center gap-3">
-              <div className={`flex h-9 w-9 items-center justify-center rounded-xl transition-colors ${
-                autoRotate ? 'bg-gold-accent/15 text-gold-accent' : 'bg-stone-800 text-stone-400'
-              }`}>
-                {autoRotate ? <RotateCw className="h-4 w-4 animate-spin-slow" /> : <Lock className="h-4 w-4" />}
-              </div>
-              <div>
-                <div className="text-xs font-semibold uppercase tracking-wide-luxe text-stone-100">
-                  7s Lighting Rotation
+          {/* AUTO-ROTATE TOGGLE CARD */}
+          <div className="mb-5 flex flex-col gap-3 rounded-2xl border border-stone-800 bg-stone-950/60 p-3.5 backdrop-blur-md">
+            <div className="flex items-center justify-between">
+              <div className="flex items-center gap-3">
+                <div
+                  className={`flex h-9 w-9 items-center justify-center rounded-xl transition-colors ${
+                    autoRotate ? 'bg-gold-accent/15 text-gold-accent' : 'bg-stone-800 text-stone-400'
+                  }`}
+                >
+                  {autoRotate ? (
+                    <RotateCw className="h-4 w-4 animate-spin-slow" />
+                  ) : (
+                    <Lock className="h-4 w-4" />
+                  )}
                 </div>
-                <div className="text-[11px] text-stone-400">
-                  {autoRotate ? 'Auto-cycling every 7 seconds' : 'Single preset locked'}
+                <div>
+                  <div className="text-xs font-semibold uppercase tracking-wide-luxe text-stone-100">
+                    Theme Auto-Rotation
+                  </div>
+                  <div className="text-[11px] text-stone-400">
+                    {autoRotate
+                      ? `Auto-cycling every ${rotateInterval} seconds`
+                      : 'Single preset locked'}
+                  </div>
                 </div>
               </div>
+
+              <button
+                onClick={onToggleAutoRotate}
+                className={`relative h-6 w-11 rounded-full transition-colors duration-300 ${
+                  autoRotate ? 'bg-gold-accent' : 'bg-stone-800'
+                }`}
+                title={autoRotate ? 'Lock current lighting' : 'Enable auto-rotation'}
+              >
+                <span
+                  className={`absolute top-1 left-1 h-4 w-4 rounded-full bg-stone-950 transition-transform duration-300 ${
+                    autoRotate ? 'translate-x-5' : 'translate-x-0'
+                  }`}
+                />
+              </button>
             </div>
 
-            <button
-              onClick={onToggleAutoRotate}
-              className={`relative h-6 w-11 rounded-full transition-colors duration-300 ${
-                autoRotate ? 'bg-gold-accent' : 'bg-stone-800'
-              }`}
-              title={autoRotate ? 'Lock current lighting' : 'Enable 7s auto-rotation'}
-            >
-              <span
-                className={`absolute top-1 left-1 h-4 w-4 rounded-full bg-stone-950 transition-transform duration-300 ${
-                  autoRotate ? 'translate-x-5' : 'translate-x-0'
-                }`}
-              />
-            </button>
+            {/* SPEED SELECTION (3s or 5s) */}
+            <div className="flex items-center justify-between border-t border-stone-800/80 pt-3">
+              <span className="text-[11px] font-medium uppercase tracking-wide-luxe text-stone-400 flex items-center gap-1.5">
+                Speed Interval
+              </span>
+              <div className="flex items-center gap-1.5 rounded-lg bg-stone-900 p-1 border border-stone-800">
+                <button
+                  type="button"
+                  onClick={() => onRotateIntervalChange(3)}
+                  className={`px-3 py-1 rounded text-xs font-semibold transition-all duration-200 ${
+                    rotateInterval === 3
+                      ? 'bg-gold-accent text-stone-950 shadow-sm'
+                      : 'text-stone-400 hover:text-stone-200 hover:bg-stone-800/50'
+                  }`}
+                >
+                  3 Sec
+                </button>
+                <button
+                  type="button"
+                  onClick={() => onRotateIntervalChange(5)}
+                  className={`px-3 py-1 rounded text-xs font-semibold transition-all duration-200 ${
+                    rotateInterval === 5
+                      ? 'bg-gold-accent text-stone-950 shadow-sm'
+                      : 'text-stone-400 hover:text-stone-200 hover:bg-stone-800/50'
+                  }`}
+                >
+                  5 Sec
+                </button>
+              </div>
+            </div>
           </div>
 
           {/* PRESET SELECTOR LIST */}

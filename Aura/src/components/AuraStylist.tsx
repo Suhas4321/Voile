@@ -4,10 +4,8 @@ import { GlassPanel } from '@/components/ui/GlassPrimitives';
 import { STYLIST_SUGGESTIONS, GARMENTS } from '@/lib/data';
 
 /* ============================================================
- * AuraStylist — floating bottom-right AI assistant widget.
- * Collapsible trigger opens a mini glass chat with mock
- * suggested prompts and styled responses + clothing chips.
- * Warm Gold Luxury aesthetic.
+ * AuraStylist — Compact Circular AI Assistant Widget.
+ * Positioned above the pinned bottom CTA bar (bottom-16 right-5).
  * ============================================================ */
 
 interface Message {
@@ -61,30 +59,30 @@ export function AuraStylist() {
   }
 
   return (
-    <div className="fixed bottom-5 right-5 z-40 flex flex-col items-end gap-3">
-      {/* Chat card */}
+    <div className="fixed bottom-16 right-5 z-50 flex flex-col items-end gap-3 pointer-events-auto">
+      {/* Chat window modal */}
       {open && (
         <GlassPanel
           shimmer
-          className="flex w-[min(92vw,360px)] flex-col overflow-hidden animate-scale-in border-stone-800 bg-stone-900/90"
+          className="flex w-[min(92vw,360px)] flex-col overflow-hidden animate-scale-in border-stone-800 bg-stone-950/95 shadow-2xl backdrop-blur-2xl rounded-2xl"
         >
           {/* Header */}
           <div className="flex items-center justify-between border-b border-stone-800 px-4 py-3">
             <div className="flex items-center gap-2">
-              <span className="flex h-8 w-8 items-center justify-center rounded-full bg-gradient-to-br from-gold-accent to-amber-500">
+              <span className="flex h-8 w-8 items-center justify-center rounded-full bg-gradient-to-br from-amber-400 to-amber-500 shadow-md">
                 <Wand2 className="h-4 w-4 text-stone-950" />
               </span>
               <div>
-                <div className="text-sm font-bold text-stone-100">FitLabs Stylist</div>
-                <div className="flex items-center gap-1 text-[10px] text-gold-accent">
-                  <span className="h-1.5 w-1.5 rounded-full bg-gold-accent animate-glow-pulse" />
-                  Online
+                <div className="text-sm font-bold text-white">FitLabs Stylist</div>
+                <div className="flex items-center gap-1 text-[10px] text-amber-400 font-semibold">
+                  <span className="h-1.5 w-1.5 rounded-full bg-amber-400 animate-pulse" />
+                  AI Fashion Assistant
                 </div>
               </div>
             </div>
             <button
               onClick={() => setOpen(false)}
-              className="flex h-7 w-7 items-center justify-center rounded-full text-stone-400 transition-colors hover:text-stone-100"
+              className="flex h-7 w-7 items-center justify-center rounded-full text-stone-400 transition-colors hover:text-white cursor-pointer"
             >
               <X className="h-4 w-4" />
             </button>
@@ -100,8 +98,8 @@ export function AuraStylist() {
                 <div
                   className={`max-w-[85%] rounded-2xl px-3.5 py-2.5 text-xs leading-relaxed ${
                     m.role === 'user'
-                      ? 'bg-gold-accent/20 text-stone-100 border border-gold-accent/30'
-                      : 'bg-stone-800/60 text-stone-300 border border-stone-800'
+                      ? 'bg-amber-400/20 text-white border border-amber-400/40'
+                      : 'bg-stone-900 text-stone-200 border border-stone-800'
                   }`}
                 >
                   {m.text}
@@ -112,7 +110,7 @@ export function AuraStylist() {
                         return (
                           <span
                             key={c}
-                            className="flex items-center gap-1 rounded-full border border-gold-accent/40 bg-gold-accent/10 px-2 py-1 text-[10px] font-medium text-gold-accent"
+                            className="flex items-center gap-1 rounded-full border border-amber-400/40 bg-amber-400/10 px-2 py-1 text-[10px] font-semibold text-amber-400"
                           >
                             <Sparkles className="h-2.5 w-2.5" />
                             {c}
@@ -134,7 +132,7 @@ export function AuraStylist() {
                 <button
                   key={s}
                   onClick={() => send(s)}
-                  className="rounded-full border border-stone-800 bg-stone-950/60 px-2.5 py-1 text-[10px] text-stone-400 transition-all hover:border-gold-accent/40 hover:text-gold-accent cursor-pointer"
+                  className="rounded-full border border-stone-800 bg-stone-900/80 px-2.5 py-1 text-[10px] text-stone-300 transition-all hover:border-amber-400/50 hover:text-amber-400 cursor-pointer"
                 >
                   {s}
                 </button>
@@ -143,33 +141,35 @@ export function AuraStylist() {
           )}
 
           {/* Input */}
-          <div className="flex items-center gap-2 border-t border-stone-800 p-3">
+          <div className="flex items-center gap-2 border-t border-stone-800 p-3 bg-stone-950">
             <input
               value={input}
               onChange={(e) => setInput(e.target.value)}
               onKeyDown={(e) => e.key === 'Enter' && send(input)}
               placeholder="Ask FitLabs Stylist…"
-              className="flex-1 bg-transparent text-xs text-stone-100 placeholder:text-stone-500 focus:outline-none"
+              className="flex-1 bg-transparent text-xs text-white placeholder:text-stone-500 focus:outline-none"
             />
             <button
               onClick={() => send(input)}
-              className="flex h-8 w-8 items-center justify-center rounded-full bg-gradient-to-br from-gold-accent to-amber-500 text-stone-950 transition-transform hover:scale-110 active:scale-95 cursor-pointer"
+              className="flex h-8 w-8 items-center justify-center rounded-full bg-amber-400 text-stone-950 transition-transform hover:scale-110 active:scale-95 cursor-pointer shadow-md"
             >
-              <Send className="h-3.5 w-3.5 fill-stone-950" />
+              <Send className="h-3.5 w-3.5 fill-stone-950 text-stone-950" />
             </button>
           </div>
         </GlassPanel>
       )}
 
-      {/* Trigger */}
+      {/* Sleek Compact Circular Icon Trigger Button */}
       <button
         onClick={() => setOpen((o) => !o)}
-        className="group flex items-center gap-2 rounded-full border border-gold-accent/40 bg-stone-950/85 px-4 py-3 backdrop-blur-xl shadow-[0_0_28px_-6px_rgba(212,175,55,0.6)] transition-all duration-300 hover:scale-105 active:scale-95 cursor-pointer"
+        title="FitLabs Stylist AI"
+        className="group relative flex h-12 w-12 items-center justify-center rounded-full border border-amber-400/50 bg-stone-950/90 text-amber-400 shadow-[0_0_24px_rgba(251,191,36,0.4)] backdrop-blur-xl transition-all duration-300 hover:scale-110 hover:border-amber-400 hover:bg-stone-900 active:scale-95 cursor-pointer"
       >
-        <span className="flex h-7 w-7 items-center justify-center rounded-full bg-gradient-to-br from-gold-accent to-amber-500">
-          <Wand2 className="h-4 w-4 text-stone-950" />
+        <Wand2 className="h-5 w-5 text-amber-400 transition-transform group-hover:rotate-12" />
+        <span className="absolute -top-1 -right-1 flex h-3 w-3">
+          <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-amber-400 opacity-75"></span>
+          <span className="relative inline-flex rounded-full h-3 w-3 bg-amber-400"></span>
         </span>
-        <span className="text-xs font-bold uppercase tracking-wide-luxe text-stone-100">FitLabs Stylist</span>
       </button>
     </div>
   );

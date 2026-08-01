@@ -88,7 +88,13 @@ def run_tryon_job(
             logger.warning(f"[{job_id}] Garment isolation error (continuing with raw): {e}")
 
         # Stage 2: processing
-        update_job(job_id, status="processing", progress_message="Running AI try-on inference…")
+        # HF ZeroGPU Spaces are single-GPU; concurrent jobs wait on a lock inside
+        # HFSpaceDevProvider. Surface that so the UI doesn't look stuck.
+        update_job(
+            job_id,
+            status="processing",
+            progress_message="Running AI try-on inference (may queue if another job is using the GPU)…",
+        )
         logger.info(f"[{job_id}] Starting inference via {VTON_PROVIDER}")
 
         result_path = _provider.run(model_image_path, garment_path_for_inference)

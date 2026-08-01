@@ -1,19 +1,19 @@
 <p align="center">
-  <img src="https://img.shields.io/badge/FIT%20MIRRORS-AI%20Fashion-black?style=for-the-badge&labelColor=0a0a0a&color=D4AF37" alt="FitMirrors Badge" />
+  <img src="https://img.shields.io/badge/VOILE-AI%20Fashion%20Studio-black?style=for-the-badge&labelColor=0a0a0a&color=D4AF37" alt="VOILE Badge" />
   <img src="https://img.shields.io/badge/React-18-61DAFB?style=for-the-badge&logo=react&logoColor=white" alt="React" />
   <img src="https://img.shields.io/badge/FastAPI-0.115-009688?style=for-the-badge&logo=fastapi&logoColor=white" alt="FastAPI" />
   <img src="https://img.shields.io/badge/AI-IDM--VTON-FF6F00?style=for-the-badge&logo=huggingface&logoColor=white" alt="IDM-VTON" />
 </p>
 
-<h1 align="center">FIT MIRRORS ✦ AI Virtual Try-On Studio</h1>
+<h1 align="center">VOILE ✦ AI Virtual Try-On Studio</h1>
 
 <p align="center">
-  <em>Haute couture meets generative AI — upload a photo, pick a garment, see yourself wearing it in seconds.</em>
+  <em>Haute couture meets generative AI — upload your photo or paste an e-commerce link, and see how clothes look on you instantly.</em>
 </p>
 
 <p align="center">
   <a href="#-demo-video">Demo Video</a> •
-  <a href="#-what-is-fitmirrors">What is FitMirrors?</a> •
+  <a href="#-what-is-voile">What is VOILE?</a> •
   <a href="#-how-it-works">How It Works</a> •
   <a href="#-features">Features</a> •
   <a href="#-getting-started">Getting Started</a> •
@@ -27,16 +27,16 @@
 ## 🎬 Demo Video
 
 <p align="center">
-  <em>Demo video coming soon — see FitMirrors virtual fitting studio in action!</em>
+  <em>Check out the VOILE virtual fitting studio in action!</em>
 </p>
 
 ---
 
-## 🪞 What is FitMirrors?
+## 🪞 What is VOILE?
 
-**FitMirrors** is a full-stack AI-powered virtual try-on platform that lets you see how any garment looks on your body — without physically wearing it. Upload a clear photo of yourself (or use a preset model), select a garment from the curated luxury collection or upload your own, and the AI generates a photorealistic image of you wearing that outfit.
+**VOILE** is a full-stack AI-powered virtual try-on platform that lets you see how any garment looks on your body — without physically wearing it. Upload a photo of yourself (or use a preset model), select a garment from the curated luxury collection, paste an e-commerce product link (Myntra, Zara, Amazon, etc.), or upload your own, and the AI generates a photorealistic image of you wearing that outfit.
 
-This isn't a simple overlay or crop-and-paste. FitMirrors uses **IDM-VTON** (Image-based Diffusion Model for Virtual Try-On), a state-of-the-art generative AI model hosted on Hugging Face, to understand body shape, garment draping, fabric texture, lighting, and shadows — producing results that look like real photographs.
+This isn't a simple overlay or crop-and-paste. VOILE uses **IDM-VTON** (Image-based Diffusion Model for Virtual Try-On), a state-of-the-art generative AI model hosted on Hugging Face, to understand body shape, garment draping, fabric texture, lighting, and shadows — producing results that look like real photographs.
 
 **Who is this for?**
 - 🛍️ **Online shoppers** — see how clothes actually look on you before buying
@@ -48,13 +48,13 @@ This isn't a simple overlay or crop-and-paste. FitMirrors uses **IDM-VTON** (Ima
 
 ## 🔮 How It Works
 
-FitMirrors follows a **4-step studio workflow** designed to feel like a luxury fitting experience:
+VOILE follows a **4-step studio workflow** designed to feel like a luxury fitting experience:
 
 | Step | Name | What Happens |
 |------|------|-------------|
 | **01** | **Model Studio** | Upload a full-body photo or choose from preset models. The system accepts front-facing shots for optimal results. |
-| **02** | **Wardrobe Closet** | Browse the curated garment collection or upload your own clothing item (JPEG, PNG, or WebP). |
-| **03** | **Neural Fitting** | The AI engine processes both images — analyzing body pose, garment shape, and fabric — then renders the try-on. Progress is shown in real-time. |
+| **02** | **Wardrobe Closet** | Browse curated garments, upload your own clothing item, or **paste an e-commerce link** (Myntra, Zara, etc.) to scrape garment images automatically. |
+| **03** | **Neural Fitting** | The AI engine processes both images — analyzing body pose, garment shape, and fabric — then renders the try-on with real-time status updates and concurrency controls. |
 | **04** | **Runway Showcase** | View the photorealistic result with a before/after comparison. Save your favorite fits or regenerate with different settings. |
 
 ---
@@ -64,24 +64,24 @@ FitMirrors follows a **4-step studio workflow** designed to feel like a luxury f
 ### Frontend — *Aura*
 - **Immersive glassmorphism UI** with ambient backgrounds, particle fields, and cursor spark trails
 - **Kinetic typography** hero section with character-by-character blur-in animation
-- **E-Commerce Link Import** — paste any product link or image URL directly into the hero or wardrobe modal to import items
+- **E-Commerce Link Import** — paste product URLs directly into the hero or wardrobe modal to extract clothing items
 - **3 lighting themes** — Neutral, Golden Hour, and Cyberpunk — with auto-rotation
 - **Tilt-responsive cards** and shimmer-sweep glass panels throughout
 - **Saved Fits drawer** — bookmark and revisit your favorite try-ons
-- **FitMirrors Stylist** — floating AI assistant widget
+- **VOILE Stylist** — floating AI assistant widget
 - **Ambient audio toggle** for an immersive studio experience
 - **Scroll progress bar** and smooth section navigation
 - **Fully responsive** — works seamlessly on desktop, tablet, and mobile
 
 ### Backend
 - **E-Commerce Garment Scraper** — automated link parsing & high-res image extraction for Myntra, Zara, Amazon, Ajio, Shopify, JSON-LD schema, and OpenGraph tags
+- **ZeroGPU Inference Serialization Lock** — thread-safe lock preventing CUDA OOM / AcceleratorErrors when executing try-ons on Hugging Face Spaces
+- **Socket Timeout & Retry Engine** — aligned socket timeouts (`httpx.Timeout`) with smart exponential backoff for GPU recovery & quota detection
 - **Async job processing** — submit a try-on, poll for results; never blocks the UI
 - **Provider abstraction** — swap AI engines (HuggingFace, fal.ai, self-hosted) without touching app code
-- **Smart retry logic** — exponential backoff with quota-aware short-circuiting
 - **Rate limiting** — configurable per-IP hourly limits (default: 10 requests/hour)
 - **Image validation** — file type, size (10 MB max), and content inspection via Pillow
 - **Automatic cleanup** — expired jobs and uploads are periodically purged
-- **Zero-cost operation** — uses HF free tier + FakeRedis fallback; runs on 8 GB RAM
 
 ---
 
@@ -212,7 +212,7 @@ curl -X POST http://localhost:8000/api/v1/extract-garment \
 
 ```
 ┌─────────────────────────────────────────────────────┐
-│                Browser (FitMirrors)                 │
+│                  Browser (VOILE)                    │
 │  React 18 + TypeScript + Vite + Tailwind CSS         │
 │  Glassmorphism UI · Particle effects · Ambient audio │
 └──────────────────────┬──────────────────────────────┘
@@ -255,7 +255,7 @@ curl -X POST http://localhost:8000/api/v1/extract-garment \
 
 ### AI Model
 
-FitMirrors uses [**IDM-VTON**](https://huggingface.co/spaces/yisol/IDM-VTON) (Image-based Diffusion Model for Virtual Try-On) — a research model that:
+VOILE uses [**IDM-VTON**](https://huggingface.co/spaces/yisol/IDM-VTON) (Image-based Diffusion Model for Virtual Try-On) — a research model that:
 
 - Takes a person image + garment flat-lay image as input
 - Generates a new image showing the person wearing the garment
@@ -278,7 +278,7 @@ FitMirrors uses [**IDM-VTON**](https://huggingface.co/spaces/yisol/IDM-VTON) (Im
 ## 📁 Project Structure
 
 ```
-FitMirrors/
+VOILE/
 ├── Aura/                          # Frontend application
 │   ├── index.html                 # Entry HTML with meta tags & fonts
 │   ├── package.json               # Dependencies and scripts
@@ -297,7 +297,7 @@ FitMirrors/
 │           ├── AmbientBackground.tsx  # Dynamic gradient backgrounds
 │           ├── ParticleField.tsx      # Floating particle effects
 │           ├── CursorSparkTrail.tsx   # Cursor trailing sparkles
-│           ├── AuraStylist.tsx        # FitMirrors AI assistant widget
+│           ├── AuraStylist.tsx        # VOILE AI assistant widget
 │           ├── ScrollProgressBar.tsx  # Page scroll indicator
 │           ├── AmbientAudioToggle.tsx # Sound toggle control
 │           ├── LightingDrawer.tsx     # Theme/lighting selector
@@ -345,6 +345,6 @@ MIT — free to use, modify, and distribute.
 
 <p align="center">
   <strong>Built with ☕ and generative AI</strong><br>
-  <sub>FitMirrors © 2026</sub>
+  <sub>VOILE © 2026</sub>
 </p>
 

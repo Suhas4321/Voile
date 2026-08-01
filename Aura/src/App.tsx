@@ -58,6 +58,7 @@ function App() {
   const [savedOpen, setSavedOpen] = useState(false);
   const [lighting, setLighting] = useState<LightingPreset>('obsidian');
   const [lightingAutoRotate, setLightingAutoRotate] = useState(false);
+  const [rotateIntervalSec, setRotateIntervalSec] = useState<3 | 5>(3);
 
   /* Hash routing: #/studio ↔ studio view */
   useEffect(() => {
@@ -90,9 +91,9 @@ function App() {
         const nextIndex = (presets.indexOf(prev) + 1) % presets.length;
         return presets[nextIndex];
       });
-    }, 7000);
+    }, rotateIntervalSec * 1000);
     return () => clearInterval(timer);
-  }, [lightingAutoRotate]);
+  }, [lightingAutoRotate, rotateIntervalSec]);
 
   const modelFrontUrl = useMemo(
     () => angles.find((a) => a.id === 'front')?.url,
@@ -175,7 +176,7 @@ function App() {
   }
 
   return (
-    <div className="relative min-h-screen">
+    <div className={`relative ${view === 'studio' ? 'h-screen overflow-hidden flex flex-col bg-stone-950 text-white' : 'min-h-screen'}`}>
       <AmbientBackground preset={lighting} />
       <ParticleField preset={lighting} />
       {view === 'landing' && <ScrollProgressBar />}
@@ -198,64 +199,87 @@ function App() {
       {view === 'landing' ? (
         <LandingPage onLaunchStudio={launchStudio} />
       ) : (
-        <main id="studio" className="pb-10">
-          <Reveal>
-            <StudioWorkspace
-              activeStep={activeStep}
-              onStepChange={setActiveStep}
-              reachableSteps={reachableSteps}
-              fullBleedContent={
-                activeStep === 4 ? (
-                  <Step4RunwayShowcase
-                    beforeUrl={modelFrontUrl ?? ''}
-                    afterUrls={resultImages}
-                    realResultUrl={tryonResultUrl ?? cachedResultUrl}
-                    garmentThumbnail={garmentImageUrl}
-                    garmentName={garmentName}
-                    garmentBrand={selectedGarment?.brand}
-                    isLoading={fitting}
-                    onSave={saveFit}
-                    onRegenerate={handleForceRegenerate}
-                    justSaved={justSaved}
-                  />
-                ) : undefined
-              }
-            >
-              {activeStep === 1 && (
-                <Step1ModelStudio
-                  angles={angles}
-                  setAngles={setAngles}
-                  selectedPresetId={selectedPresetId}
-                  setSelectedPresetId={setSelectedPresetId}
-                  onContinue={() => setActiveStep(2)}
-                />
-              )}
-
-              {activeStep === 2 && (
-                <Step2WardrobeCloset
-                  selectedGarment={selectedGarment}
-                  setSelectedGarment={setSelectedGarment}
-                  uploadedGarmentUrl={uploadedGarmentUrl}
-                  setUploadedGarmentUrl={setUploadedGarmentUrl}
-                  bgRemoval={bgRemoval}
-                  setBgRemoval={setBgRemoval}
-                  onBack={() => setActiveStep(1)}
-                  onContinue={startFitting}
-                />
-              )}
-
-              {activeStep === 3 && (
-                <Step3NeuralFitting
-                  modelImageUrl={modelFrontUrl ?? null}
-                  garmentImageUrl={garmentImageUrl ?? null}
+        <main id="studio" className="flex-1 min-h-0 flex flex-col overflow-hidden">
+          <StudioWorkspace
+            activeStep={activeStep}
+            onStepChange={setActiveStep}
+            reachableSteps={reachableSteps}
+            modelImageUrl={modelFrontUrl ?? null}
+            garmentImageUrl={garmentImageUrl ?? null}
+            garmentName={garmentName}
+            garmentBrand={selectedGarment?.brand ?? 'FitLabs Studio'}
+            garmentPrice={selectedGarment?.price ?? null}
+            isFitting={fitting}
+            onModelUpload={(file) => {
+              const url = URL.createObjectURL(file);
+              setSelectedPresetId(null);
+              setAngles(angles.map((a) => ({ ...a, url })));
+            }}
+            onBack={() => {
+              if (activeStep > 1) setActiveStep((activeStep - 1) as StepId);
+            }}
+            onContinue={() => {
+              if (activeStep === 1) setActiveStep(2);
+              else if (activeStep === 2) startFitting();
+            }}
+            canContinue={
+              activeStep === 1
+                ? Boolean(modelFrontUrl)
+                : activeStep === 2
+                  ? Boolean(selectedGarment) || Boolean(uploadedGarmentUrl)
+                  : true
+            }
+            fullBleedContent={
+              activeStep === 4 ? (
+                <Step4RunwayShowcase
+                  beforeUrl={modelFrontUrl ?? ''}
+                  afterUrls={resultImages}
+                  realResultUrl={tryonResultUrl ?? cachedResultUrl}
+                  garmentThumbnail={garmentImageUrl}
                   garmentName={garmentName}
-                  onComplete={onFittingComplete}
-                  onBack={() => setActiveStep(2)}
-                  onForceRegenerate={handleForceRegenerate}
+                  garmentBrand={selectedGarment?.brand}
+                  isLoading={fitting}
+                  onSave={saveFit}
+                  onRegenerate={handleForceRegenerate}
+                  justSaved={justSaved}
                 />
-              )}
-            </StudioWorkspace>
-          </Reveal>
+              ) : undefined
+            }
+          >
+            {activeStep === 1 && (
+              <Step1ModelStudio
+                angles={angles}
+                setAngles={setAngles}
+                selectedPresetId={selectedPresetId}
+                setSelectedPresetId={setSelectedPresetId}
+                onContinue={() => setActiveStep(2)}
+              />
+            )}
+
+            {activeStep === 2 && (
+              <Step2WardrobeCloset
+                selectedGarment={selectedGarment}
+                setSelectedGarment={setSelectedGarment}
+                uploadedGarmentUrl={uploadedGarmentUrl}
+                setUploadedGarmentUrl={setUploadedGarmentUrl}
+                bgRemoval={bgRemoval}
+                setBgRemoval={setBgRemoval}
+                onBack={() => setActiveStep(1)}
+                onContinue={startFitting}
+              />
+            )}
+
+            {activeStep === 3 && (
+              <Step3NeuralFitting
+                modelImageUrl={modelFrontUrl ?? null}
+                garmentImageUrl={garmentImageUrl ?? null}
+                garmentName={garmentName}
+                onComplete={onFittingComplete}
+                onBack={() => setActiveStep(2)}
+                onForceRegenerate={handleForceRegenerate}
+              />
+            )}
+          </StudioWorkspace>
         </main>
       )}
 
@@ -270,6 +294,8 @@ function App() {
         }}
         autoRotate={lightingAutoRotate}
         onToggleAutoRotate={() => setLightingAutoRotate((prev) => !prev)}
+        rotateInterval={rotateIntervalSec}
+        onRotateIntervalChange={setRotateIntervalSec}
       />
 
       {/* Studio-only tools */}
