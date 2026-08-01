@@ -5,7 +5,7 @@
   <img src="https://img.shields.io/badge/AI-IDM--VTON-FF6F00?style=for-the-badge&logo=huggingface&logoColor=white" alt="IDM-VTON" />
 </p>
 
-<h1 align="center">FIT MIRRORS ✦ AI Virtual Try-On Studio</h1>
+<h1 align="center">FIT LABS ✦ AI Virtual Try-On Studio</h1>
 
 <p align="center">
   <em>Haute couture meets generative AI — upload a photo, pick a garment, see yourself wearing it in seconds.</em>
